@@ -1,0 +1,51 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+
+    <!-- Merkliste, aufgeklappt über das Herz-Symbol; aufgebaut wie der Warenkorb,
+         aber ohne Mengen (siehe fragment/CartPopover.fragment.xml) -->
+    <ResponsivePopover
+        id="wishlistPopover"
+        title="{i18n>wishlistPopoverTitle}"
+        placement="Bottom"
+        contentWidth="24rem">
+
+        <content>
+            <List
+                id="wishlistItemList"
+                items="{wishlist>/Items}"
+                mode="Delete"
+                delete="onWishlistItemDelete"
+                noDataText="{i18n>wishlistEmptyText}">
+                <CustomListItem>
+                    <HBox alignItems="Center" justifyContent="SpaceBetween">
+                        <HBox alignItems="Center">
+                            <Image src="{wishlist>ImageUrl}" alt="{wishlist>Name}" decorative="false" width="3rem" class="wishlistItemImage"/>
+                            <VBox class="wishlistItemText">
+                                <Text text="{wishlist>Name}"/>
+                                <Text text="{path: 'wishlist>Price', formatter: '.formatter.formatPrice'}"/>
+                            </VBox>
+                        </HBox>
+                        <Button
+                            icon="sap-icon://cart-3"
+                            type="Transparent"
+                            tooltip="{i18n>productCartTooltip}"
+                            press="onWishlistAddSingleToCart"/>
+                    </HBox>
+                </CustomListItem>
+            </List>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button
+                    text="{i18n>wishlistAddAllToCartBtn}"
+                    type="Emphasized"
+                    enabled="{= ${wishlist>/Items}.length > 0 }"
+                    press="onWishlistAddAllToCart"/>
+            </OverflowToolbar>
+        </footer>
+    </ResponsivePopover>
+
+</core:FragmentDefinition>

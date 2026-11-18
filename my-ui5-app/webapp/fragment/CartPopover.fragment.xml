@@ -1,0 +1,73 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+
+    <!-- Warenkorb, aufgeklappt über das Symbol in der Kopfzeile. ResponsivePopover,
+         weil daraus auf dem Phone von selbst ein bildschirmfüllender Dialog wird -->
+    <ResponsivePopover
+        id="cartPopover"
+        title="{i18n>cartPopoverTitle}"
+        placement="Bottom"
+        contentWidth="24rem">
+
+        <content>
+            <!-- mode="Delete" liefert den Löschen-Knopf je Zeile mit, noDataText
+                 übernimmt den leeren Warenkorb ohne zweiten Bereich -->
+            <List
+                id="cartItemList"
+                items="{cart>/Items}"
+                mode="Delete"
+                delete="onCartItemDelete"
+                noDataText="{i18n>cartEmptyText}">
+                <!-- CustomListItem statt ObjectListItem, weil hier ein Bedienelement für
+                     die Menge nötig ist; zwei Zeilen, weil das Popover nur 24rem breit ist -->
+                <CustomListItem>
+                    <VBox class="cartLineItem">
+                        <!-- Obere Zeile: Bild, Name und Stückpreis -->
+                        <HBox alignItems="Center">
+                            <Image src="{cart>ImageUrl}" alt="{cart>Name}" decorative="false" class="cartLineImage"/>
+                            <VBox class="cartLineText">
+                                <Text text="{cart>Name}"/>
+                                <Text
+                                    class="cartLineUnitPrice"
+                                    text="{path: 'cart>Price', formatter: '.formatter.formatPrice'}"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Untere Zeile: Menge und Positionssumme. mode OneWay, damit nur
+                             der Controller ins Modell schreibt und die Summen nachziehen -->
+                        <HBox alignItems="Center" justifyContent="SpaceBetween" width="100%">
+                            <StepInput
+                                value="{path: 'cart>Quantity', mode: 'OneWay'}"
+                                min="1"
+                                max="{cart>Stock}"
+                                width="7rem"
+                                tooltip="{i18n>cartQuantityLabel}"
+                                change="onCartQuantityChange"/>
+                            <ObjectNumber
+                                number="{parts: [{path: 'cart>Price'}, {path: 'cart>Quantity'}], formatter: '.formatter.formatLinePrice'}"/>
+                        </HBox>
+                    </VBox>
+                </CustomListItem>
+            </List>
+        </content>
+
+        <!-- Die Zwischensumme hängt an /Items und rechnet sich dadurch nach jeder
+             Änderung selbst neu (siehe formatter.formatCartTotal) -->
+        <footer>
+            <OverflowToolbar>
+                <Label text="{i18n>cartSubtotalLabel}"/>
+                <Title
+                    level="H4"
+                    text="{path: 'cart>/Items', formatter: '.formatter.formatCartTotal'}"/>
+                <ToolbarSpacer/>
+                <Button
+                    text="{i18n>cartCheckoutBtn}"
+                    type="Emphasized"
+                    enabled="{= ${cart>/Items}.length > 0 }"
+                    press="onCartCheckoutPress"/>
+            </OverflowToolbar>
+        </footer>
+    </ResponsivePopover>
+
+</core:FragmentDefinition>

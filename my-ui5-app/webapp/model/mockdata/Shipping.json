@@ -1,0 +1,18 @@
+{
+    "ShippingOptions": [
+        {
+            "ShippingId": "STANDARD",
+            "NameKey": "shippingStandardName",
+            "HintKey": "shippingStandardHint",
+            "Price": 3.99,
+            "DeliveryDays": 5
+        },
+        {
+            "ShippingId": "PREMIUM",
+            "NameKey": "shippingPremiumName",
+            "HintKey": "shippingPremiumHint",
+            "Price": 9.99,
+            "DeliveryDays": 2
+        }
+    ]
+}

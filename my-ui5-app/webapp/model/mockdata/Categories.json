@@ -1,0 +1,24 @@
+{
+    "Categories": [
+        {
+            "CategoryId": "ALL",
+            "NameKey": "categoryAll"
+        },
+        {
+            "CategoryId": "Schreibwaren",
+            "NameKey": "categoryPens"
+        },
+        {
+            "CategoryId": "Kleber",
+            "NameKey": "categoryGlue"
+        },
+        {
+            "CategoryId": "Ordner",
+            "NameKey": "categoryFolders"
+        },
+        {
+            "CategoryId": "Notizbuecher",
+            "NameKey": "categoryNotebooks"
+        }
+    ]
+}

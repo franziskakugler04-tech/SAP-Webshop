@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+
+    <!-- Empfehlungsblock für Produktübersicht und Detailseite; gefüllt wird er
+         über BaseController#loadRecommendations -->
+    <VBox class="recommendationsSection">
+        <Title text="{i18n>productOverviewRecommendationsTitle}" level="H3" class="recommendationsTitle"/>
+        <HBox id="recommendationsArea" class="recommendationsArea" items="{recommendations>/Items}">
+            <Panel class="recommendationCard sapUiNoContentPadding">
+                <content>
+                    <VBox>
+                        <Image src="{recommendations>ImageUrl}" alt="{recommendations>Name}" decorative="false" class="recommendationImage"/>
+                        <Text text="{recommendations>Name}" class="recommendationName"/>
+                    </VBox>
+                </content>
+            </Panel>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

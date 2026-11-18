@@ -1,0 +1,87 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.Newsletter"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        title="{i18n>newsletterPageTitle}"
+        class="shopPage"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        enableScrolling="true">
+
+        <content>
+            <VBox alignItems="Center">
+                <VBox class="newsletterContent">
+
+                    <Image
+                        src="../assets/images/extra-images/newsletter-abo-picture.webp"
+                        width="100%"
+                        alt="{i18n>altNewsletterImage}"
+                        decorative="false"
+                        class="newsletterImage newsletterPageImage" />
+
+                    <VBox class="newsletterCard">
+
+                        <Title text="{i18n>newsletterHeroTitle}" level="H1" class="newsletterMainTitle"/>
+                        <Text text="{i18n>newsletterIntro}" class="newsletterParagraph"/>
+                        <Text text="{i18n>newsletterIntro2}" class="newsletterParagraph"/>
+
+                        <Title text="{i18n>newsletterBenefitsHeading}" level="H3" class="newsletterSubHeading"/>
+                        <List showSeparators="None" class="newsletterBenefitList">
+                            <StandardListItem title="{i18n>newsletterBenefit1}" icon="sap-icon://accept" iconInset="false"/>
+                            <StandardListItem title="{i18n>newsletterBenefit2}" icon="sap-icon://accept" iconInset="false"/>
+                            <StandardListItem title="{i18n>newsletterBenefit3}" icon="sap-icon://accept" iconInset="false"/>
+                            <StandardListItem title="{i18n>newsletterBenefit4}" icon="sap-icon://accept" iconInset="false"/>
+                            <StandardListItem title="{i18n>newsletterBenefit5}" icon="sap-icon://accept" iconInset="false"/>
+                        </List>
+                        
+
+                        <Title text="{i18n>newsletterPrivacyHeading}" level="H3" class="newsletterSubHeading"/>
+                        <Text text="{i18n>newsletterPrivacyText1}" class="newsletterParagraph"/>
+                        <Text text="{i18n>newsletterPrivacyText2}" class="newsletterParagraph"/>
+                        <Text text="{i18n>newsletterUnsubscribeNote}" class="newsletterParagraph newsletterNote"/>
+
+                        <Title text="{i18n>newsletterCtaHeading}" level="H3" class="newsletterSubHeading"/>
+                        <Text text="{i18n>newsletterCtaText}" class="newsletterParagraph"/>
+                        <Text text="{i18n>newsletterCtaText2}" class="newsletterParagraph"/>
+
+                        <!-- Ohne Adresse kein Abo; geprüft wird wie bei der Registrierung,
+                             hier zählt nur die E-Mail-Adresse selbst -->
+                        <Label text="{i18n>newsletterEmailLabel}" required="true" labelFor="newsletterEmailInput"/>
+                        <Input
+                            id="newsletterEmailInput"
+                            type="Email"
+                            value="{newsletterView>/Email}"
+                            placeholder="{i18n>newsletterEmailPlaceholder}"
+                            enabled="{= !${newsletterView>/subscribed} }"
+                            liveChange="onInputLiveChange"/>
+
+                        <!-- Simuliert: keine echte Anmeldung, nur die sichtbare Bestätigung -->
+                        <HBox
+                            class="newsletterSuccessBanner"
+                            visible="{newsletterView>/subscribed}"
+                            alignItems="Center">
+                            <core:Icon src="sap-icon://accept" class="newsletterSuccessIcon"/>
+                            <VBox>
+                                <Text text="{i18n>newsletterSuccessMessage}" class="newsletterSuccessText"/>
+                                <Text text="{i18n>newsletterSuccessSubtext}" class="newsletterSuccessSubtext"/>
+                            </VBox>
+                        </HBox>
+
+                        <Button
+                            text="{= ${newsletterView>/subscribed} ? ${i18n>newsletterSubscribedButton} : ${i18n>newsletterSubscribeButton} }"
+                            type="Emphasized"
+                            enabled="{= !${newsletterView>/subscribed} }"
+                            press="onSubscribe"
+                            class="newsletterSubscribeButton"/>
+
+                    </VBox>
+                </VBox>
+            </VBox>
+
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+    </Page>
+</mvc:View>

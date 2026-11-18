@@ -1,0 +1,14 @@
+{
+  "name": "webshop",
+  "version": "1.0.0",
+  "description": "SAPUI5/OpenUI5 Beispielprojekt mit lokalen Mockdaten",
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --clean-dest",
+    "lint": "eslint webapp"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3",
+    "eslint": "^8"
+  }
+}

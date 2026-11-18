@@ -1,0 +1,327 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.Register"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m">
+    <Page title="{i18n>registerTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+
+            <!-- Breitere Variante der Karte von der Anmeldeseite -->
+            <VBox class="authCard authCardWide">
+                <Text text="{i18n>registerIntro}"/>
+
+                <!-- Pflichtabschnitt: ohne diese Angaben kein Konto -->
+                <Panel headerText="{i18n>registerAccountPanel}">
+                    <content>
+
+                        <!-- labelSpan auf 12 stellt die Beschriftung über das Feld -
+                             auf schmalen Bildschirmen bleibt so alles lesbar -->
+                        <form:SimpleForm
+                            layout="ResponsiveGridLayout"
+                            editable="true"
+                            labelSpanXL="12"
+                            labelSpanL="12"
+                            labelSpanM="12"
+                            labelSpanS="12"
+                            adjustLabelSpan="false">
+                            <form:content>
+                                <Label text="{i18n>registerSalutationLabel}"/>
+                                <!-- Auf dem Phone untereinander, sonst nebeneinander -
+                                     vier Optionen passen dort nicht in eine Zeile -->
+                                <RadioButtonGroup
+                                    columns="{= ${device>/system/phone} ? 1 : 4 }"
+                                    selectedIndex="{registration>/SalutationIndex}">
+                                    <RadioButton text="{i18n>registerSalutationMrs}"/>
+                                    <RadioButton text="{i18n>registerSalutationMr}"/>
+                                    <RadioButton text="{i18n>registerSalutationDiverse}"/>
+                                    <RadioButton text="{i18n>registerSalutationNone}"/>
+                                </RadioButtonGroup>
+
+                                <Label text="{i18n>registerFirstNameLabel}" required="true" labelFor="registerFirstNameInput"/>
+                                <Input
+                                    id="registerFirstNameInput"
+                                    value="{registration>/FirstName}"
+                                    placeholder="{i18n>registerFirstNamePlaceholder}"
+                                    liveChange="onInputLiveChange"/>
+
+                                <Label text="{i18n>registerLastNameLabel}" required="true" labelFor="registerLastNameInput"/>
+                                <Input
+                                    id="registerLastNameInput"
+                                    value="{registration>/LastName}"
+                                    placeholder="{i18n>registerLastNamePlaceholder}"
+                                    liveChange="onInputLiveChange"/>
+
+                                <Label text="{i18n>registerEmailLabel}" required="true" labelFor="registerEmailInput"/>
+                                <Input
+                                    id="registerEmailInput"
+                                    type="Email"
+                                    value="{registration>/Email}"
+                                    placeholder="{i18n>registerEmailPlaceholder}"
+                                    liveChange="onInputLiveChange"/>
+
+                                <Label text="{i18n>registerPhoneLabel}" labelFor="registerPhoneInput"/>
+                                <Input
+                                    id="registerPhoneInput"
+                                    type="Tel"
+                                    value="{registration>/Phone}"
+                                    placeholder="{i18n>registerPhonePlaceholder}"
+                                    liveChange="onInputLiveChange"/>
+
+                                <Label text="{i18n>registerPasswordLabel}" required="true" labelFor="registerPasswordInput"/>
+                                <Input
+                                    id="registerPasswordInput"
+                                    type="Password"
+                                    value="{registration>/Password}"
+                                    placeholder="{i18n>registerPasswordPlaceholder}"
+                                    liveChange="onInputLiveChange"/>
+
+                                <Label text="{i18n>registerPasswordRepeatLabel}" required="true" labelFor="registerPasswordRepeatInput"/>
+                                <Input
+                                    id="registerPasswordRepeatInput"
+                                    type="Password"
+                                    value="{registration>/PasswordRepeat}"
+                                    liveChange="onInputLiveChange"/>
+                            </form:content>
+                        </form:SimpleForm>
+
+                        <!-- Die CheckBox kennt keinen valueStateText, deshalb bekommt
+                             die Pflichtzustimmung einen eigenen Meldungsstreifen -->
+                        <MessageStrip
+                            id="registerTermsStrip"
+                            text="{i18n>registerTermsMissing}"
+                            type="Error"
+                            showIcon="true"
+                            visible="false"
+                            class="authTermsStrip"/>
+
+                        <VBox class="authCheckBoxes">
+                            <CheckBox
+                                text="{i18n>registerTermsLabel}"
+                                selected="{registration>/AcceptedTerms}"
+                                wrapping="true"/>
+                            <CheckBox
+                                text="{i18n>registerNewsletterLabel}"
+                                selected="{registration>/Newsletter}"
+                                wrapping="true"/>
+                            <CheckBox
+                                text="{i18n>registerDiscountLabel}"
+                                selected="{registration>/DiscountInfo}"
+                                wrapping="true"/>
+                        </VBox>
+
+                    </content>
+                </Panel>
+
+                <!-- Freiwilliger Abschnitt, eingeklappt: so bleibt der Pflichtteil
+                     oben im Blick. Bei Fehlern klappt der Controller ihn auf -->
+                <Panel
+                    id="registerAddressPanel"
+                    headerText="{i18n>registerAddressPanel}"
+                    expandable="true"
+                    expanded="false">
+                    <content>
+                        <VBox class="authPanelContent">
+
+                            <MessageStrip
+                                text="{i18n>registerAddressHint}"
+                                type="Information"
+                                showIcon="true"/>
+
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false">
+                                <form:content>
+                                    <Label text="{i18n>registerCountryLabel}" labelFor="registerCountrySelect"/>
+                                    <!-- Feste Auswahl statt Freitext: die PLZ-Prüfung
+                                         hängt am Land, ein Tippfehler würde sie aushebeln -->
+                                    <Select
+                                        id="registerCountrySelect"
+                                        width="100%"
+                                        selectedKey="{registration>/Address/Country}"
+                                        change="onCountryChange">
+                                        <core:Item key="DE" text="{i18n>countryDe}"/>
+                                        <core:Item key="AT" text="{i18n>countryAt}"/>
+                                        <core:Item key="CH" text="{i18n>countryCh}"/>
+                                    </Select>
+
+                                    <Label text="{i18n>registerCityLabel}" labelFor="registerCityInput"/>
+                                    <Input
+                                        id="registerCityInput"
+                                        value="{registration>/Address/City}"
+                                        placeholder="{i18n>registerCityPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerPostalCodeLabel}" labelFor="registerPostalCodeInput"/>
+                                    <Input
+                                        id="registerPostalCodeInput"
+                                        maxLength="5"
+                                        value="{registration>/Address/PostalCode}"
+                                        placeholder="{i18n>registerPostalCodePlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerStreetLabel}" labelFor="registerStreetInput"/>
+                                    <Input
+                                        id="registerStreetInput"
+                                        value="{registration>/Address/Street}"
+                                        placeholder="{i18n>registerStreetPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerCompanyLabel}" labelFor="registerCompanyInput"/>
+                                    <Input
+                                        id="registerCompanyInput"
+                                        value="{registration>/Address/CompanyName}"
+                                        placeholder="{i18n>registerCompanyPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- Ebenfalls freiwillig; geprüft wird nur die gewählte Zahlungsart -->
+                <Panel
+                    id="registerPaymentPanel"
+                    headerText="{i18n>registerPaymentPanel}"
+                    expandable="true"
+                    expanded="false">
+                    <content>
+                        <VBox class="authPanelContent">
+
+                            <MessageStrip
+                                text="{i18n>registerPaymentHint}"
+                                type="Information"
+                                showIcon="true"/>
+
+                            <!-- Der Umschalter steuert über die visible-Bindungen
+                                 unten, welche Feldgruppe angezeigt wird -->
+                            <SegmentedButton
+                                id="registerPaymentTypeButton"
+                                width="100%"
+                                selectedKey="{registration>/Payment/Type}"
+                                selectionChange="onPaymentTypeChange">
+                                <items>
+                                    <SegmentedButtonItem key="CARD" text="{i18n>paymentCard}"/>
+                                    <SegmentedButtonItem key="SEPA" text="{i18n>paymentSepa}"/>
+                                    <SegmentedButtonItem key="PAYPAL" text="{i18n>paymentPaypal}"/>
+                                </items>
+                            </SegmentedButton>
+
+                            <!-- Kreditkarte -->
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                visible="{= ${registration>/Payment/Type} === 'CARD' }">
+                                <form:content>
+                                    <Label text="{i18n>registerCardHolderLabel}" labelFor="registerCardHolderInput"/>
+                                    <Input
+                                        id="registerCardHolderInput"
+                                        value="{registration>/Payment/CardHolder}"
+                                        placeholder="{i18n>registerCardHolderPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerCardNumberLabel}" labelFor="registerCardNumberInput"/>
+                                    <Input
+                                        id="registerCardNumberInput"
+                                        value="{registration>/Payment/CardNumber}"
+                                        placeholder="{i18n>registerCardNumberPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerCardExpiryLabel}" labelFor="registerCardExpiryInput"/>
+                                    <Input
+                                        id="registerCardExpiryInput"
+                                        maxLength="5"
+                                        value="{registration>/Payment/CardExpiry}"
+                                        placeholder="{i18n>registerCardExpiryPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerCardCvcLabel}" labelFor="registerCardCvcInput"/>
+                                    <Input
+                                        id="registerCardCvcInput"
+                                        maxLength="3"
+                                        value="{registration>/Payment/CardCvc}"
+                                        placeholder="{i18n>registerCardCvcPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <!-- SEPA-Lastschrift -->
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                visible="{= ${registration>/Payment/Type} === 'SEPA' }">
+                                <form:content>
+                                    <Label text="{i18n>registerAccountHolderLabel}" labelFor="registerAccountHolderInput"/>
+                                    <Input
+                                        id="registerAccountHolderInput"
+                                        value="{registration>/Payment/AccountHolder}"
+                                        placeholder="{i18n>registerAccountHolderPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>registerIbanLabel}" labelFor="registerIbanInput"/>
+                                    <Input
+                                        id="registerIbanInput"
+                                        value="{registration>/Payment/Iban}"
+                                        placeholder="{i18n>registerIbanPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <!-- PayPal -->
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                visible="{= ${registration>/Payment/Type} === 'PAYPAL' }">
+                                <form:content>
+                                    <Label text="{i18n>registerPaypalEmailLabel}" labelFor="registerPaypalEmailInput"/>
+                                    <Input
+                                        id="registerPaypalEmailInput"
+                                        type="Email"
+                                        value="{registration>/Payment/PaypalEmail}"
+                                        placeholder="{i18n>registerPaypalEmailPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+
+            <!-- Bewusst ohne die Shop-Fußzeile: Diese Seite ist eine fokussierte
+                 Aufgabe mit einer festen Aktionsleiste am unteren Rand -->
+        </content>
+
+        <!-- Fußleiste statt Knöpfe im Formular, weil sie beim Scrollen sichtbar bleibt.
+             Fiori-Reihenfolge: rechtsbündig, häufigste Aktion zuletzt, einer hervorgehoben -->
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button text="{i18n>registerSubmitBtn}" type="Emphasized" press="onRegister"/>
+                <Button text="{i18n>registerCancelBtn}" type="Transparent" press="onNavBack"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

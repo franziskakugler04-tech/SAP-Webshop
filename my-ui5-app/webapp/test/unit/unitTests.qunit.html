@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>QUnit TestRunner: My UI5 App</title>
+
+    <script id="sap-ui-bootstrap" src="../../resources/sap-ui-core.js"
+        data-sap-ui-resourceroots='{"my.ui5.app": "../../"}' data-sap-ui-async="true" data-sap-ui-compatVersion="edge">
+        </script>
+
+    <link rel="stylesheet" href="../../resources/sap/ui/thirdparty/qunit-2.css">
+    <script src="../../resources/sap/ui/thirdparty/qunit-2.js"></script>
+    <script src="../../resources/sap/ui/qunit/qunit-junit.js"></script>
+    <script src="../../resources/sap/ui/qunit/qunit-coverage.js"></script>
+
+    <script>
+        sap.ui.getCore().attachInit(function () {
+            sap.ui.require([
+                "my/ui5/app/test/unit/unitTests.qunit"
+            ]);
+        });
+    </script>
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+</body>
+
+</html>

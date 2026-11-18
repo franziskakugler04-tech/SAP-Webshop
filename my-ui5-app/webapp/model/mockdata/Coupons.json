@@ -1,0 +1,12 @@
+{
+    "Coupons": [
+        {
+            "Code": "CLIP10",
+            "Percent": 10
+        },
+        {
+            "Code": "BUERO5",
+            "Percent": 5
+        }
+    ]
+}

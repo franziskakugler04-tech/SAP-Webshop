@@ -1,0 +1,112 @@
+<!-- Filterpanel für die Produktübersicht -->
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m">
+
+    <Panel headerText="{i18n>filterTitle}" expandable="false" expanded="true" class="filterPanel sapUiContentPadding" id="filterPanelControl">
+        <content>
+            <VBox width="100%" class="filterForm">
+
+                <!-- Nur auf Mobile sichtbar -->
+                <Button
+                    id="filterToggleButton"
+                    text="{i18n>filterTitle}"
+                    icon="sap-icon://slim-arrow-down"
+                    iconFirst="false"
+                    press=".onToggleFilterDropdown"
+                    class="dropdownToggleButton"/>
+
+                <VBox id="filterDropdownContent" class="dropdownContent">
+
+                    <!-- Unterkategorien entstehen aus den Produkten der gewählten Hauptkategorie -->
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>subCategoryLabel}" labelFor="subCategorySelect"/>
+                        <Select id="subCategorySelect" width="100%" items="{subcategories>/SubCategories}">
+                            <core:Item key="{subcategories>Key}" text="{subcategories>Text}"/>
+                        </Select>
+                    </VBox>
+
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>searchByTitle}" labelFor="titleSearch"/>
+                        <SearchField id="titleSearch" placeholder="{i18n>search}" width="100%" search=".onFilterPress"/>
+                    </VBox>
+
+                    <!-- Hersteller: per Freitext oder exakt über die Auswahlliste,
+                         beides unabhängig voneinander -->
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>searchByManufacturer}" labelFor="manufacturerSearch"/>
+                        <SearchField id="manufacturerSearch" placeholder="{i18n>search}" width="100%" search=".onFilterPress"/>
+                        <Select
+                            id="manufacturerSelect"
+                            width="100%"
+                            class="sapUiTinyMarginTop"
+                            items="{manufacturers>/Manufacturers}">
+                            <core:Item key="{manufacturers>Key}" text="{manufacturers>Text}"/>
+                        </Select>
+                    </VBox>
+
+                    <!-- Feste Liste der Filter-Farben -->
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>chooseColor}" labelFor="colorSelect"/>
+                        <Select id="colorSelect" width="100%">
+                            <core:Item key="" text="{i18n>colorful}"/>
+                            <core:Item key="Bunt" text="{i18n>colors}"/>
+                            <core:Item key="Rot" text="{i18n>red}"/>
+                            <core:Item key="Blau" text="{i18n>blue}"/>
+                            <core:Item key="Grün" text="{i18n>green}"/>
+                            <core:Item key="Schwarz" text="{i18n>black}"/>
+                            <core:Item key="Weiß" text="{i18n>white}"/>
+                            <core:Item key="Lila" text="{i18n>violet}"/>
+                            <core:Item key="Rosa" text="{i18n>pink}"/>
+                            <core:Item key="Türkis" text="{i18n>turquoise}"/>
+                        </Select>
+                    </VBox>
+
+                    <!-- Preisspanne: max dynamisch gesetzt -->
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>choosePriceRange}"/>
+                        <HBox alignItems="Center" class="priceSliderRow">
+                            <RangeSlider
+                                id="priceRangeSlider"
+                                min="0"
+                                step="0.5"
+                                width="100%"
+                                liveChange="onPriceRangeLiveChange"/>
+                        </HBox>
+                        <Text id="priceRangeLabel" class="priceRangeLabel"/>
+                    </VBox>
+
+                    <VBox class="filterGroup">
+                        <CheckBox id="discountCheckBox" text="{i18n>onlyDiscounts}"/>
+                    </VBox>
+
+                    <VBox class="filterGroup">
+                        <Label text="{i18n>availability}" labelFor="availabilitySelect"/>
+                        <Select id="availabilitySelect" width="100%">
+                            <core:Item key="" text="{i18n>all}"/>
+                            <core:Item key="inStock" text="{i18n>inStock}"/>
+                            <core:Item key="onRequest" text="{i18n>onRequest}"/>
+                            <core:Item key="comingSoon" text="{i18n>comingSoon}"/>
+                        </Select>
+                    </VBox>
+
+                    <HBox class="filterButtonRow" justifyContent="Start">
+                        <Button
+                            text="{i18n>filterSearch}"
+                            type="Emphasized"
+                            press=".onFilterPress"/>
+                        <Button
+                            text="{i18n>resetFilters}"
+                            type="Default"
+                            press=".onResetPress"
+                            class="sapUiSmallMarginBegin"/>
+                    </HBox>
+
+                </VBox>
+            </VBox>
+        </content>
+    </Panel>
+
+</core:FragmentDefinition>

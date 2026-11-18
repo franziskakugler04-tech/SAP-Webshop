@@ -1,0 +1,32 @@
+{
+    "Users": [
+        {
+            "UserId": "U001",
+            "Salutation": "HERR",
+            "FirstName": "Max",
+            "LastName": "Mustermann",
+            "Email": "max.mustermann@clip-und-co.de",
+            "Phone": "+49 9621 123456",
+            "Password": "Clip1234",
+            "AcceptedTerms": true,
+            "Newsletter": true,
+            "DiscountInfo": false,
+            "Address": {
+                "Country": "DE",
+                "City": "Amberg",
+                "PostalCode": "92224",
+                "Street": "Hauptstraße 1",
+                "CompanyName": "OTH Amberg"
+            },
+            "Payment": {
+                "Type": "SEPA",
+                "AccountHolder": "Max Mustermann",
+                "Iban": "DE02120300000000202051",
+                "CardHolder": "",
+                "CardNumber": "",
+                "CardExpiry": "",
+                "PaypalEmail": ""
+            }
+        }
+    ]
+}

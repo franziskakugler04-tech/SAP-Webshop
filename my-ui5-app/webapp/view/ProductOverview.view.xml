@@ -1,0 +1,184 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.ProductOverview"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page title="{i18n>productsTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <HBox class="productOverviewLayout">
+
+                <!-- Linke Spalte: Kategorie-Navigation -->
+                <VBox class="categorySidebar" id="categorySidebarBox">
+                    <Button
+                        id="categoryToggleButton"
+                        text="{i18n>categoriesTitle}"
+                        icon="sap-icon://slim-arrow-down"
+                        iconFirst="false"
+                        press="onToggleCategoryDropdown"
+                        class="dropdownToggleButton"/>
+                    <Title text="{i18n>categoriesTitle}" level="H3" class="categorySidebarTitle desktopOnlyTitle"/>
+                    <VBox id="categoryDropdownContent" class="dropdownContent">
+                        <List
+                            id="categoryList"
+                            mode="SingleSelectMaster"
+                            selectionChange="onCategorySelect"
+                            items="{categories>/Categories}">
+                            <StandardListItem title="{path: 'categories>NameKey', formatter: '.formatTextKey'}"/>
+                        </List>
+                    </VBox>
+                </VBox>
+
+                <!-- Filterpanel, ebenfalls auf der linken Seite -->
+                <VBox id="filterPanelWrapper" class="filterPanelWrapper">
+                    <core:Fragment fragmentName="my.ui5.app.fragment.FilterPanel" type="XML"/>
+                </VBox>
+
+                <!-- Mittlere Spalte: Produktkacheln -->
+                <VBox class="productsArea">
+
+                    <!-- Ausgelagert, weil die Detailseite denselben Block braucht, dort
+                         aber ohne das offene Produkt (BaseController#loadRecommendations) -->
+                    <core:Fragment fragmentName="my.ui5.app.fragment.ProductRecommendations" type="XML"/>
+
+                    <!-- Info-Streifen und Banner -->
+                    <VBox class="bannerImageProductOverviewWrapper">
+                    <Image
+                        src="../assets/images/logo-images/logo-banner-gruen.svg"
+                        width="100%"
+                        alt="{i18n>altBrandBanner}"
+                        class="bannerImageProductOverview"
+                        press="onNavToNewsletter"/>
+                    </VBox> 
+
+                    <!-- Sortier-Leiste: wirkt über _refreshProductList auf die gesamte
+                         gefilterte Liste, nicht nur auf die aktuelle Seite -->
+                    <HBox justifyContent="End" alignItems="Center" class="sortBarProductOverview">
+                        <Label text="{i18n>sortByLabel}" class="sortByLabel" labelFor="sortSelect"/>
+                        <Select
+                            id="sortSelect"
+                            selectedKey="popularity"
+                            width="220px"
+                            change="onSortChange">
+                            <core:Item key="popularity" text="{i18n>sortPopularity}"/>
+                            <core:Item key="ratingDesc" text="{i18n>sortRatingDesc}"/>
+                            <core:Item key="priceAsc" text="{i18n>sortPriceAsc}"/>
+                            <core:Item key="priceDesc" text="{i18n>sortPriceDesc}"/>
+                        </Select>
+                    </HBox>
+
+                    <!-- Produktkacheln der aktuellen Seite aus dem Modell "pagedProducts" -->
+                    <FlexBox
+                        id="productsContainer"
+                        items="{pagedProducts>/Products}"
+                        wrap="Wrap"
+                        class="productsContainer">
+
+                        <VBox class="productCard">
+                            <VBox class="productImageWrapper">
+                                <Image src="{pagedProducts>ImageUrl}" alt="{pagedProducts>Name}" decorative="false" class="productImage"/>
+                                <!-- Beide Kennzeichnungen in einem Container, weil ein Produkt
+                                     zugleich Angebot und Sommeraktion sein kann -->
+                                <VBox class="productBadgesStack">
+                                    <Text
+                                        text="{i18n>springOfferBadge}"
+                                        visible="{= ${pagedProducts>ProductId} === 'P001'}"
+                                        class="springOfferBadge"/>
+                                    <Text
+                                        text="{i18n>onSaleBadge}"
+                                        visible="{pagedProducts>IsOnSale}"
+                                        class="onSaleBadge"/>
+                                </VBox>
+                            </VBox>
+                            <VBox class="productContent">
+                                <Text text="{pagedProducts>Name}" class="productName"/>
+                                <HBox class="productRatingRow" alignItems="Center">
+                                    <RatingIndicator value="{pagedProducts>Rating}" maxValue="5" editable="false" iconSize="1rem"/>
+                                    <Text text="({pagedProducts>RatingCount})" class="ratingCount"/>
+                                </HBox>
+                                <HBox class="productAvailabilityRow" alignItems="Center">
+                                    <core:Icon src="sap-icon://product" class="deliveryIcon"/>
+                                    <Text text="{path: 'pagedProducts>AvailabilityKey', formatter: '.formatTextKey'}"/>
+                                </HBox>
+                                <HBox class="productDeliveryRow" alignItems="Center">
+                                    <core:Icon src="sap-icon://shipping-status" class="deliveryIcon"/>
+                                    <Text text="{pagedProducts>DeliveryText}"/>
+                                </HBox>
+                                <HBox class="productFooterRow" justifyContent="SpaceBetween" alignItems="Center">
+                                    <!-- Preis-Anzeige, bei Angeboten mit Streichpreis -->
+                                    <HBox class="productPriceRow" alignItems="Baseline">
+                                        <!-- Angebotspreis: nur bei IsOnSale -->
+                                        <ObjectNumber
+                                            number="{path: 'pagedProducts>OnSalePrice', formatter: '.formatter.formatPrice'}"
+                                            visible="{pagedProducts>IsOnSale}"
+                                            class="productPrice productPriceSale"/>
+                                        <!-- Normalpreis: klein und durchgestrichen nur bei IsOnSale -->
+                                        <Text
+                                            text="{path: 'pagedProducts>Price', formatter: '.formatter.formatPrice'}"
+                                            visible="{pagedProducts>IsOnSale}"
+                                            class="productPriceOld"/>
+                                        <!-- Normalpreis: unverändert, wenn NICHT im Angebot -->
+                                        <ObjectNumber
+                                            number="{path: 'pagedProducts>Price', formatter: '.formatter.formatPrice'}"
+                                            visible="{= !${pagedProducts>IsOnSale} }"
+                                            class="productPrice"/>
+                                    </HBox>
+                                    <HBox class="productActions">
+                                        <Button icon="sap-icon://heart" type="Transparent" class="favButton productPanelBtn" tooltip="{i18n>productFavoriteTooltip}" press="onFavoritePress"/>
+                                        <Button icon="sap-icon://cart-3" type="Transparent" class="cartButton productPanelBtn" tooltip="{i18n>productCartTooltip}" press="onAddToCart"/>
+                                    </HBox>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                    </FlexBox>
+
+                    <!-- Leerer Zustand, wenn der Filter keine Treffer liefert -->
+                    <IllustratedMessage
+                        id="noProductsMessage"
+                        visible="{= ${pagination>/totalCount} === 0 }"
+                        illustrationType="sapIllus-NoData"
+                        title="{i18n>noProductsTitle}"
+                        description="{i18n>noProductsDescription}"
+                        class="noProductsMessage"/>
+
+                    <!-- Pagination-Leiste -->
+                    <HBox justifyContent="Center" alignItems="Center" class="paginationBar">
+                        <Button
+                            icon="sap-icon://navigation-left-arrow"
+                            type="Transparent"
+                            enabled="{= !${pagination>/isFirstPage} }"
+                            press="onPrevPage"
+                            class="paginationButton"/>
+                        <Text text="{pagination>/pageLabel}" class="paginationLabel"/>
+                        <Button
+                            icon="sap-icon://navigation-right-arrow"
+                            type="Transparent"
+                            enabled="{= !${pagination>/isLastPage} }"
+                            press="onNextPage"
+                            class="paginationButton"/>
+                        <Text text="{pagination>/resultCountLabel}" class="paginationResultCount"/>
+                    </HBox>
+
+                    <!-- Angebots-Banner am Seitenende -->
+                    <Panel class="heroBanner angebotOverviewProducts angebot">
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{i18n>mainSpringOffer}" level="H2"/>
+                            </Toolbar>
+                        </headerToolbar>
+                        <content>
+                            <Image
+                                src="../assets/images/extra-images/fruehlings-angebote-picture.webp"
+                                width="100%"
+                                alt="{i18n>altSummerOffer}"
+                                class="newsletterImage"
+                                press="onNavToSummerOffer"/>
+                        </content>
+                    </Panel>
+                </VBox>
+
+            </HBox>
+
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+    </Page>
+</mvc:View>

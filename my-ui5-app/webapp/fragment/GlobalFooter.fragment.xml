@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <!-- Globale Fußzeile des Shops -->
+    <VBox class="globalFooter">
+        <HBox class="footerInner" wrap="Wrap" justifyContent="SpaceBetween">
+
+            <!-- Spalte 1: Logo und Verweise auf die sozialen Netzwerke -->
+            <VBox class="footerColumn footerColumnBrand">
+                <Image
+                    src="assets/images/logo-images/logo-gros-gruen-light.svg"
+                    width="110px"
+                    alt="{i18n>altLogo}"
+                    class="footerLogoImage"
+                    press="onNavBackFooter"/>
+
+                <Label text="{i18n>footerFollowUsLabel}" class="footerSocialLabel" />
+                <HBox class="footerSocialIcons">
+                    <core:HTML content="&lt;a href='#' class='footerRoundIconBtn' data-network='instagram' aria-label='Instagram'&gt;&lt;i class='fab fa-instagram'&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href='#' class='footerRoundIconBtn' data-network='pinterest' aria-label='Pinterest'&gt;&lt;i class='fab fa-pinterest'&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href='#' class='footerRoundIconBtn' data-network='linkedin' aria-label='LinkedIn'&gt;&lt;i class='fab fa-linkedin-in'&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href='#' class='footerRoundIconBtn' data-network='facebook' aria-label='Facebook'&gt;&lt;i class='fab fa-facebook-f'&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href='#' class='footerRoundIconBtn' data-network='blog' aria-label='Blog'&gt;&lt;i class='fas fa-newspaper'&gt;&lt;/i&gt;&lt;/a&gt;" />
+                </HBox>
+            </VBox>
+
+            <!-- Spalte 2: Slogan und Zahlungsarten -->
+            <VBox class="footerColumn footerColumnPayment">
+                <Text text="{i18n>footerClaimText}" class="footerClaim" />
+                <Text text="{i18n>footerClaimText2}" class="footerClaim2" />
+                <Title text="{i18n>footerPaymentHeading}" level="H2" class="footerHeading" />
+                <Text text="{i18n>footerPaymentText}" class="footerLink" />
+                <HBox class="footerPaymentIcons">
+                    <core:HTML content="&lt;span class='footerPaymentIcon'&gt;&lt;i class='fab fa-cc-mastercard'&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class='footerPaymentIcon'&gt;&lt;i class='fab fa-cc-paypal'&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class='footerPaymentIcon'&gt;&lt;i class='fas fa-file-invoice'&gt;&lt;/i&gt;&lt;/span&gt;" />
+                </HBox>
+            </VBox>
+
+            <!-- Spalte 3: Verweise rund um den Shop -->
+            <VBox class="footerColumn footerColumnAbout">
+                <Title text="{i18n>footerAboutHeading}" level="H2" class="footerHeading" />
+            <Link text="{i18n>footerNewsletterLink}" class="footerLink" press="onNavToNewsletter" />                
+            <Link text="{i18n>footerAboutLink}" class="footerLink" press="onFooterLinkPress" />
+                <Link text="{i18n>footerServiceLink}" class="footerLink" press="onFooterLinkPress" />
+                <Link text="{i18n>footerPrivacyLink}" class="footerLink" press="onFooterLinkPress" />
+            </VBox>
+
+            <!-- Spalte 4: Rechtliches und die Umschalter für die Darstellung -->
+            <VBox class="footerColumn footerColumnLegal">
+                <Title text="{i18n>footerLegalHeading}" level="H2" class="footerHeading" />
+                <Link text="{i18n>footerAgbLink}" class="footerLink" press="onFooterLinkPress" />
+                <Link text="{i18n>footerAccessibilityLink}" class="footerLink" press="onFooterLinkPress" />
+                <Link text="{i18n>footerImprintLink}" class="footerLink" press="onFooterLinkPress" />
+                <Link text="{i18n>footerCookiesLink}" class="footerLink" press="onFooterLinkPress" />
+
+                <HBox class="footerUtilityIcons">
+                    <core:Icon src="sap-icon://dark-mode" class="footerUtilityIcon footerRoundIconBtn buttonSize" />
+                    <core:Icon src="sap-icon://accessibility" class="footerUtilityIcon footerRoundIconBtn buttonSize" />
+                </HBox>
+            </VBox>
+        </HBox>
+    </VBox>
+
+</core:FragmentDefinition>

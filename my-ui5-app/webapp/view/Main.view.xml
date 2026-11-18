@@ -1,0 +1,137 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        title="{i18n>appTitle}"
+        class="shopPage"
+        showNavButton="false"
+        enableScrolling="true">
+
+        <content>
+            <VBox alignItems="Center">
+
+                <VBox class="shopContent">
+
+                    <!-- Angebots-Banner -->
+                    <Panel class="heroBanner angebot angebotHead">
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{i18n>mainSpringOffer}" level="H2"/>
+                            </Toolbar>
+                        </headerToolbar>
+                        <content>
+                            <Image
+                                src="../assets/images/extra-images/fruehlings-angebote-picture.webp"
+                                width="100%"
+                                alt="{i18n>altSummerOffer}"
+                                class="newsletterImage"
+                                press="onNavToSummerOffer"/>
+                        </content>
+                    </Panel>
+
+                    <!-- Kategorie-Kacheln -->
+                    <l:Grid defaultSpan="L6 M6 S12" class="categoryGrid">
+                        <l:content>
+                            <GenericTile
+                                    id="tileStifte"
+                                    class="categoryTile categoryTileStifte"
+                                    header="{i18n>categoryPens}"
+                                    frameType="TwoByOne"
+                                    mode="ArticleMode"
+                                    width="100%"
+                                    press="onCategoryTilePress">
+                                <customData>
+                                    <core:CustomData key="categoryId" value="Schreibwaren"/>
+                                </customData>
+                            </GenericTile>
+                            <GenericTile
+                                    id="tileOrdner"
+                                    class="categoryTile categoryTileOrdner"
+                                    header="{i18n>categoryFolders}"
+                                    frameType="TwoByOne"
+                                    mode="ArticleMode"
+                                    width="100%"
+                                    press="onCategoryTilePress">
+                                <customData>
+                                    <core:CustomData key="categoryId" value="Ordner"/>
+                                </customData>
+                            </GenericTile>
+                            <GenericTile
+                                    id="tileNotizbuecher"
+                                    class="categoryTile categoryTileNotizbuecher"
+                                    header="{i18n>categoryNotebooks}"
+                                    frameType="TwoByOne"
+                                    mode="ArticleMode"
+                                    width="100%"
+                                    press="onCategoryTilePress">
+                                <customData>
+                                    <core:CustomData key="categoryId" value="Notizbuecher"/>
+                                </customData>
+                            </GenericTile>
+                            <GenericTile
+                                    id="tileKleber"
+                                    class="categoryTile categoryTileKleber"
+                                    header="{i18n>categoryGlue}"
+                                    frameType="TwoByOne"
+                                    mode="ArticleMode"
+                                    width="100%"
+                                    press="onCategoryTilePress">
+                                <customData>
+                                    <core:CustomData key="categoryId" value="Kleber"/>
+                                </customData>
+                            </GenericTile>
+                        </l:content>
+                    </l:Grid>
+
+                    <!-- Info-Streifen und Banner -->
+                    <Image
+                        src="../assets/images/logo-images/logo-banner-gruen.svg"
+                        width="100%"
+                        alt="{i18n>altBrandBanner}"
+                        class="bannerImage"
+                        press="onNavToNewsletter"/>
+
+                    <!-- Newsletter-Banner -->
+                    <Panel class="newsletterBanner angebot">
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{i18n>mainNewsletterHeadline}" level="H2"/>
+                            </Toolbar>
+                        </headerToolbar>
+                        <content>
+                            <Image
+                                src="../assets/images/extra-images/newsletter-abo-picture.webp"
+                                width="100%"
+                                alt="{i18n>altNewsletterImage}"
+                                class="newsletterImage"
+                                press="onNavToNewsletter"/>
+                        </content>
+                    </Panel>
+
+                    <!-- Neuheiten -->
+                    <VBox class="sectionBlock">
+                        <Title text="{i18n>mainNewProductsHeadline}" level="H2" class="sectionTitle"/>
+                        <HBox class="newProductsArea" items="{newProducts>/Items}" wrap="Wrap">
+                            <VBox class="newProductCard">
+                                <Image
+                                    src="{newProducts>ImageUrl}"
+                                    alt="{newProducts>Name}"
+                                    class="newProductImage"
+                                    press="onNavToProduct"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </VBox>
+
+            <!-- Fußzeile -->
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+    </Page>
+</mvc:View>

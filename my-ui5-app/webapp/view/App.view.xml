@@ -1,0 +1,50 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    class="appRootView"
+    xmlns="sap.m">
+
+    <Bar class="globalHeader">
+        <contentLeft>
+            <Image
+                        src="assets/images/logo-images/logo-klein-gruen-light.svg"
+                        width="50px"
+                        alt="{i18n>altLogo}"
+                        class="headerLogoImage"
+                        press="onNavBack"/>
+        </contentLeft>
+        <contentMiddle>
+            <SearchField
+            id="headerSearchField"
+            placeholder="{i18n>headerSearchPlaceholder}"
+            width="100%"
+            class="headerSearch"
+            search="onHeaderSearch"/>
+        </contentMiddle>
+        <contentRight>
+            <!-- Die Zahlen an Herz und Warenkorb setzt der Controller (_setBadge)
+                 statt einer Bindung; beide Knöpfe brauchen dafür eine id -->
+            <Button
+                id="favoritesButton"
+                icon="sap-icon://heart"
+                type="Transparent"
+                class="headerIconBtn"
+                tooltip="{i18n>headerFavoritesTooltip}"
+                press="onHeaderFavoritesPress"/>
+            <Button
+                id="cartButton"
+                icon="sap-icon://cart-3"
+                type="Transparent"
+                class="headerIconBtn headerCartBtn"
+                tooltip="{i18n>headerCartTooltip}"
+                press="onHeaderCartPress"/>
+            <Avatar src="sap-icon://customer" displaySize="S" class="headerAvatar" press="onHeaderProfilePress"/>
+        </contentRight>
+    </Bar>
+
+    <!-- Die Fußzeile steht bewusst nicht hier, sondern als Fragment am Ende
+         jeder Seite - siehe fragment/GlobalFooter.fragment.xml -->
+    <App id="app" class="appBody" />
+
+</mvc:View>

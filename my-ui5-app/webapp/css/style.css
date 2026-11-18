@@ -1,0 +1,1423 @@
+/* ============================================================
+   THEME-VARIABLEN
+   ============================================================ */
+:root {
+    /* Markenfarben */
+    --shop-brand-bg: var(--sapButton_Emphasized_Background, #0f3d2a);
+    --shop-brand-text: var(--sapButton_Emphasized_TextColor, #ffffff);
+    --shop-accent-bg: var(--sapHighlightColor, #6b1f4a);
+    --shop-accent-text: var(--sapContent_ContrastTextColor, #ffffff);
+
+    /* Flächen */
+    --shop-surface: var(--sapGroup_ContentBackground, #ffffff);
+    --shop-surface-alt: var(--sapList_Background, #fafafa);
+    --shop-border: var(--sapList_BorderColor, #e5e5e5);
+
+    /* Text */
+    --shop-text-muted: var(--sapContent_LabelColor, #666666);
+    --shop-text-subtle: var(--sapContent_LabelColor, #555555);
+
+    /* Effekte */
+    --shop-overlay-on-brand: rgba(255, 255, 255, 0.15);
+    --shop-shadow-card: var(--sapContent_Shadow1, 0 2px 8px rgba(0, 0, 0, 0.12));
+    --shop-accent-bg-alpha: color-mix(in srgb, var(--shop-accent-bg) 8%, transparent);
+
+    /* Eigenständiges Grün für saisonale Angebots-Badges, bewusst getrennt von --shop-accent-bg */
+    --shop-offer-bg: var(--sapPositiveColor, #266E3A);
+    --shop-offer-text: var(--sapContent_ContrastTextColor, #ffffff);
+
+    --shop-field-invalid-shadow: inset 0 0 0 0.125rem var(--sapField_InvalidColor, #e90b0b);
+    --shop-header-icon-bg: #266E3A;
+    --shop-header-icon-bg-hover: #0a2e1e;
+
+    /* Skaliert stufenlos mit der Viewport-Breite statt fester Breakpoint-Werte */
+    --shop-inline-space: clamp(0.5rem, 4vw, 1.5rem);
+}
+
+/* Muss NACH dem Theme-CSS geladen werden */
+.sapUiTheme-sap_horizon {
+    --sapButton_Emphasized_Background: #0f3d2a;
+    --sapButton_Emphasized_TextColor: #ffffff;
+    --sapHighlightColor: #6b1f4a;
+    --sapContent_ContrastTextColor: #ffffff;
+    --sapField_InvalidShadow: var(--shop-field-invalid-shadow);
+}
+
+.sapUiTheme-sap_horizon_dark {
+    --sapButton_Emphasized_Background: #1c5c3f;
+    --sapHighlightColor: #9a4a78;
+    --sapContent_ContrastTextColor: #ffffff;
+    --sapField_InvalidShadow: var(--shop-field-invalid-shadow);
+}
+
+
+/* ============================================================
+   APP-SHELL / HEADER / FOOTER
+   ============================================================ */
+.appRootView {
+    display: block;
+    position: relative;
+}
+
+.globalHeader {
+    height: 3.25rem;
+    background-color: var(--shop-brand-bg);
+    padding: 0.1rem 1rem;
+    box-sizing: border-box;
+}
+
+.sapMApp.appBody {
+    display: block;
+    width: 100%;
+    min-height: 0;
+    position: absolute;
+    top: 3.25rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+}
+
+.headerLogoImage {
+    height: 5.0rem !important;
+    width: auto !important;
+    margin-top: 1.0rem !important;
+}
+
+.headerSearch {
+    max-width: 500px;
+}
+
+.headerIconBtn,
+.headerIconBtn .sapMBtnIcon {
+    color: var(--shop-brand-text) !important;
+    border-radius: 10%;
+    padding: 0;
+}
+
+.headerIconBtn:hover,
+.headerIconBtn:hover .sapMBtnIcon {
+    color: var(--shop-brand-bg) !important;
+}
+
+.headerAvatar,
+.headerAvatar .sapFAvatarIcon {
+    background-color: var(--shop-offer-bg) !important;
+    color: var(--shop-brand-text) !important;
+    cursor: pointer;
+}
+
+.headerAvatar:hover {
+    color: var(--shop-brand-bg) !important;
+    background-color: var(--shop-brand-text) !important;
+}
+
+.sapFAvatarS {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* Footer ist Teil des Seiteninhalts und scrollt mit, keine eigene Positionierung nötig */
+.globalFooter {
+    background: var(--shop-brand-bg);
+    color: var(--shop-brand-text);
+    padding: 1.5rem 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footerInner {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.footerColumn {
+    gap: 0.5rem;
+    min-width: 180px;
+}
+
+.footerSocialLabel,
+.footerHeading,
+.footerLink {
+    color: var(--shop-brand-text) !important;
+}
+
+.footerClaim {
+    font-weight: 700;
+    color: var(--shop-brand-text);
+    margin-top: 2.5rem;
+    font-size: 1.6rem;
+}
+
+.footerClaim2 {
+    font-weight: 700;
+    color: var(--shop-brand-text);
+    margin-bottom: 2.5rem;
+    font-size: 1.6rem;
+}
+
+.footerHeading {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.footerLink:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.footerSocialIcons,
+.footerPaymentIcons {
+    gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footerRoundIconBtn {
+    background-color: var(--shop-overlay-on-brand);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.footerRoundIconBtn i {
+    color: var(--shop-brand-text);
+    font-size: 20px;
+}
+
+.buttonSize {
+    font-size: 30px;
+}
+
+.footerPaymentIcon {
+    background-color: var(--shop-overlay-on-brand);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+}
+
+.footerPaymentIcon i {
+    font-size: 30px;
+    color: var(--shop-brand-text);
+}
+
+.footerLogoImage {
+    width: 160px !important;
+    height: auto;
+}
+
+.footerUtilityIcons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.footerColumnAbout,
+.footerColumnLegal {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+
+/* ============================================================
+   STARTSEITE (Main.view.xml)
+   ============================================================ */
+.shopContent {
+    width: 60%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.heroBanner .sapMPanelContent,
+.newsletterBanner .sapMPanelContent {
+    padding: 10px;
+}
+
+.newsletterImage {
+    border-radius: 0.5rem;
+    object-fit: cover;
+    max-height: 200px;
+}
+
+.bannerImage {
+    display: block;
+    width: 100%;
+    height: clamp(48px, 4vw, 90px);
+    object-fit: cover;
+    object-position: right center;
+    margin-bottom: 10px;
+
+}
+
+.sectionBlock {
+    margin: 1rem 0;
+}
+
+.sectionTitle {
+    margin-bottom: 0.5rem;
+}
+
+.newProductsArea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.newProductCard {
+    flex: 1 1 calc(33.333% - 0.667rem);
+    min-width: 0;
+}
+
+.newProductImage {
+    width: 100%;
+    height: 140px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    display: block;
+}
+
+.categoryTile {
+    position: relative;
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border: var(--shop-surface) 5px solid;
+}
+
+.categoryTileStifte {
+    background-image: url("../assets/images/category-images/category-titlepicture-buntstifte.webp");
+}
+
+.categoryTileOrdner {
+    background-image: url("../assets/images/category-images/category-titlepicture-ordner.webp");
+}
+
+.categoryTileNotizbuecher {
+    background-image: url("../assets/images/category-images/category-titlepicture-notizbuech.webp");
+}
+
+.categoryTileKleber {
+    background-image: url("../assets/images/category-images/category-titlepicture-kleber.webp");
+}
+
+/* Text liegt auf einem Foto statt auf einer themebaren Fläche, deshalb bewusst fest weiß */
+.categoryTile .sapMGTHdrTxt,
+.sapMGTHdrTxt>.sapMText,
+.categoryTile .sapMTileCntFtrTxt,
+.categoryTile .sapMGTHdrTxtLine {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    font-size: medium;
+}
+
+
+/* ============================================================
+   PRODUKTÜBERSICHT – LAYOUT (ProductOverview.view.xml)
+   ============================================================ */
+.productOverviewLayout {
+    min-height: 100%;
+    align-items: stretch;
+}
+
+.categorySidebar {
+    width: 220px;
+    min-width: 220px;
+    border-right: 1px solid var(--shop-border);
+    background: var(--shop-surface-alt);
+}
+
+.categorySidebarTitle {
+    padding: 1rem 1rem 0.5rem 1rem;
+}
+
+.productsArea {
+    flex: 1;
+    min-width: 0;
+    margin-left: 1rem;
+}
+
+.dropdownToggleButton {
+    display: none;
+}
+
+.dropdownContent {
+    max-height: none;
+    overflow: visible;
+}
+
+
+/* ---- Filterpanel (FilterPanel.fragment.xml) ---- */
+.filterPanel {
+    margin: 1rem 1rem 1.5rem 1rem;
+}
+
+.filterPanel .sapMPanelContent {
+    padding: 1rem;
+}
+
+.filterForm {
+    width: 100%;
+    gap: 0.75rem;
+}
+
+.filterGroup {
+    width: 100%;
+    gap: 0.35rem;
+}
+
+.filterButtonRow {
+    margin-top: 0.25rem;
+    gap: 0.5rem;
+}
+
+.priceSliderRow {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.priceSliderRow .sapMSlider,
+#priceRangeSlider {
+    width: 100% !important;
+}
+
+/* Price Slider Breite fix */
+.priceSliderRow>.sapMFlexItem {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+
+.priceRangeLabel {
+    font-weight: 600;
+    color: var(--shop-brand-bg);
+}
+
+.sapMSliderLabels {
+    display: none !important;
+}
+
+
+/* ---- Produktkacheln ---- */
+/* Die Spaltenzahl ergibt sich aus der Breite von .productsContainer selbst */
+.productsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem) var(--shop-inline-space);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.productCard {
+    width: 100%;
+    min-width: 0;
+    max-width: 420px;
+    margin: 0 auto;
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    container-type: inline-size;
+    container-name: productcard;
+}
+
+.productImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.productContent {
+    padding: 1rem;
+    gap: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.productName {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.ratingCount {
+    margin-left: 0.4rem;
+    color: var(--shop-text-muted);
+}
+
+.productDeliveryRow {
+    color: var(--shop-text-subtle);
+    font-size: 0.85rem;
+    gap: 0.3rem;
+}
+
+.deliveryIcon {
+    color: var(--shop-text-subtle);
+    font-size: 1rem;
+}
+
+.productAvailabilityRow {
+    color: var(--shop-text-subtle);
+    font-size: 0.85rem;
+    gap: 0.4rem;
+}
+
+.productFooterRow {
+    margin-top: auto;
+}
+
+/* Sicherheitsnetz, falls eine Karte trotz minmax() mal unter 300px fällt */
+@container productcard (max-width: 300px) {
+    .productFooterRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .productActions {
+        align-self: flex-end;
+    }
+}
+
+.productPrice {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.productActions {
+    gap: 0.5rem;
+}
+
+.favButton,
+.cartButton {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* Wrapper übernimmt das Beschneiden, damit das Bild frei und
+   ohne Verzerrung skalieren kann */
+.bannerImageProductOverviewWrapper {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.bannerImageProductOverview {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Panel füllt seinen Wrapper immer vollständig aus, egal wie UI5 es sonst rendert */
+.filterPanel,
+.filterPanel.sapMPanel {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Auf schmalen Fenstern nur die rechten zwei Drittel des Logos zeigen; das
+   Seitenverhältnis bleibt, weil nur die Breite gesetzt wird */
+@media (max-width: 768px) {
+    .bannerImageProductOverview {
+        width: 150%;
+        max-width: 150%;
+        margin-left: -50%;
+    }
+
+    .filterPanelWrapper {
+        order: 2;
+        flex: 1 1 100% !important;
+        width: calc(100% - 2 * var(--shop-inline-space)) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+    }
+
+    .filterPanel .sapMPanelContent {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+    }
+}
+
+.sortBarProductOverview {
+    margin-right: 25% !important;
+}
+
+.sortByLabel {
+    margin-right: 0.5rem;
+}
+
+.productPanelBtn,
+.productPanelBtn .sapMBtnIcon {
+    color: var(--shop-offer-bg) !important;
+    border-radius: 10%;
+    padding: 0;
+    border: none !important;
+}
+
+.productPanelBtn:hover,
+.productPanelBtn:hover .sapMBtnIcon {
+    color: var(--shop-brand-bg) !important;
+}
+
+/* ---- Angebots-Kennzeichnung ---- */
+.productPriceRow {
+    gap: 0.5rem;
+}
+
+.productPriceSale {
+    color: var(--shop-accent-bg);
+}
+
+.productPriceOld {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--shop-text-muted);
+    text-decoration: line-through;
+}
+
+.productImageWrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+.productBadgesStack {
+    position: absolute;
+    top: 0.75rem;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 1;
+}
+
+.onSaleBadge,
+.springOfferBadge {
+    padding: 0.3rem 0.9rem 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 0 4px 4px 0;
+    box-shadow: var(--shop-shadow-card);
+}
+
+.onSaleBadge {
+    background-color: var(--shop-accent-bg);
+    color: var(--shop-accent-text);
+}
+
+.springOfferBadge {
+    background-color: var(--shop-offer-bg);
+    color: var(--shop-offer-text);
+}
+
+
+/* ---- Pagination ---- */
+.paginationBar {
+    gap: 0.75rem;
+    padding: 1rem 0 2rem 0;
+}
+
+.paginationButton {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.paginationLabel {
+    font-weight: 600;
+    min-width: 100px;
+    text-align: center;
+}
+
+.paginationResultCount {
+    margin-left: 1rem;
+    color: var(--shop-text-muted);
+    font-size: 0.85rem;
+}
+
+
+/* ---- Angebots-Panels (Hero/Newsletter, auf mehreren Seiten genutzt) ---- */
+.angebotOverviewProducts {
+    margin-left: 2.5%;
+    box-shadow: var(--shop-shadow-card);
+    margin-right: 1.5% !important;
+    width: 94% !important;
+}
+
+.angebot {
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shop-shadow-card);
+    margin-right: 5% !important;
+}
+
+.angebotHead {
+    margin-top: 1.5rem;
+}
+
+
+/* ============================================================
+   EMPFEHLUNGEN (Recommendations)
+   ============================================================ */
+.recommendationsSection {
+    margin: 1.5rem auto;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 var(--shop-inline-space);
+    box-sizing: border-box;
+}
+
+.recommendationsTitle {
+    margin-bottom: 0.75rem;
+}
+
+.recommendationsArea {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.recommendationCard {
+    flex: 0 0 clamp(150px, 40vw, 220px);
+    scroll-snap-align: start;
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+    overflow: hidden;
+}
+
+/* Ab hier passt eine ganze Kartenreihe nebeneinander, deshalb gleichmäßig
+   über die volle Breite verteilen statt waagerecht zu scrollen */
+@media (min-width: 900px) {
+    .recommendationsArea {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        overflow: visible;
+    }
+
+    .recommendationCard {
+        flex: unset;
+    }
+}
+
+.recommendationCard .sapMPanelContent {
+    padding: 0;
+}
+
+.recommendationImage {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.recommendationName {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 0.75rem 1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+    overflow-wrap: break-word;
+    min-height: calc(1.05rem * 1.3 * 2 + 1.5rem);
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   PRODUKTDETAILSEITE (ProductDetail.view.xml)
+   ============================================================ */
+
+.productCard,
+.recommendationCard {
+    cursor: pointer;
+}
+
+.productDetailArea {
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: 70rem;
+    margin: 20px;
+}
+
+.productDetailInfoPanel,
+.productDetailRatingPanel,
+.productDetailRecommendationsPanel {
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+    margin-bottom: 1.5rem;
+}
+
+/* Die Inhalte reagieren auf die tatsächliche Panel-Breite und nicht auf die
+   Viewport-Breite, weil die Seitenleiste sie mitbestimmt */
+.productDetailInfoPanel {
+    container-type: inline-size;
+    container-name: productdetailpanel;
+}
+
+.productDetailInfoPanel .sapMPanelContent,
+.productDetailRatingPanel .sapMPanelContent,
+.productDetailRecommendationsPanel .sapMPanelContent {
+    padding: 1.5rem;
+}
+
+.productDetailHeaderRow {
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+}
+
+.productRatingRow,
+.productPriceRow {
+    min-width: 0;
+}
+
+.productDetailName {
+    min-width: 0;
+    flex: 1 1 auto;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+@container productdetailpanel (max-width: 480px) {
+    .productDetailHeaderRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .productDetailName {
+        text-align: left;
+    }
+}
+
+.productDetailMainRow {
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.productDetailImage {
+    width: clamp(120px, 40cqi, 320px);
+    flex: 0 0 auto;
+}
+
+.productDetailDescription {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Ab hier lohnt die Beschreibung neben dem Bild nicht mehr - klarer
+   Umschaltpunkt auf gestapeltes Layout statt unkontrolliertem Umbruch */
+@container productdetailpanel (max-width: 500px) {
+    .productDetailMainRow {
+        flex-direction: column;
+    }
+
+    .productDetailImage {
+        width: clamp(140px, 60cqi, 260px);
+        margin: 0 auto;
+    }
+}
+
+.productDetailInfoRow {
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+}
+
+@container productdetailpanel (max-width: 480px) {
+    .productDetailInfoRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .productDetailInfoRow .productActions {
+        align-self: flex-end;
+    }
+}
+
+.productDetailRecommendationsPanel .recommendationsSection {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+}
+
+.productDetailRatingRow {
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.ratingThanksText {
+    color: var(--shop-text-subtle);
+    font-weight: 600;
+}
+
+.productDetailSpringOfferBadge {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--shop-offer-bg);
+    color: var(--shop-offer-text);
+    padding: 0.3rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================================
+   WARENKORB (CartPopover.fragment.xml)
+   ============================================================ */
+.cartLineItem {
+    gap: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+/* Image setzt seine Maße als Inline-Style, deshalb !important */
+.cartLineImage {
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.cartLineText {
+    margin-left: 0.75rem;
+    gap: 0.1rem;
+}
+
+.cartLineUnitPrice {
+    color: var(--shop-text-muted);
+    font-size: 0.875rem;
+}
+
+/* ============================================================
+   MERKLISTE (WishlistPopover.fragment.xml)
+   ============================================================ */
+.wishlistItemImage {
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin: 0.25rem;
+}
+
+.wishlistItemText {
+    margin-left: 0.75rem;
+    gap: 0.1rem;
+}
+
+/* ============================================================
+   ANMELDUNG & REGISTRIERUNG
+   ============================================================ */
+.authCard {
+    max-width: 32rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    gap: 1rem;
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+}
+
+.authCardWide {
+    max-width: 52rem;
+}
+
+.authCheckBoxes {
+    margin-top: 0.5rem;
+}
+
+.authPanelContent {
+    gap: 0.75rem;
+}
+
+.authTermsStrip {
+    margin-top: 0.5rem;
+}
+
+
+/* ============================================================
+   KASSE
+   ============================================================ */
+.checkoutContent {
+    max-width: 52rem;
+    margin: 1.5rem auto;
+    gap: 1rem;
+}
+
+.checkoutCard {
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+}
+
+.checkoutCardLine {
+    margin-top: 0.25rem;
+}
+
+.checkoutCardActions {
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.checkoutLineItem {
+    gap: 1rem;
+    padding: 0.5rem 0;
+    width: 100%;
+}
+
+.checkoutLineImage {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.checkoutLineText {
+    flex: 1 1 10rem;
+}
+
+.checkoutLineUnitPrice {
+    color: var(--shop-text-muted);
+    font-size: 0.875rem;
+}
+
+.checkoutLinePrice {
+    min-width: 5rem;
+}
+
+.checkoutCouponRow {
+    gap: 0.5rem;
+}
+
+.checkoutSummary {
+    gap: 0.5rem;
+}
+
+.checkoutTotalRow {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--shop-border);
+}
+
+
+/* ============================================================
+   BESTELLBESTÄTIGUNG
+   ============================================================ */
+.orderConfirmationLines {
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+}
+
+.orderConfirmationPrintRow {
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.orderConfirmationBlock {
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.orderConfirmationItems {
+    margin-bottom: 1rem;
+}
+
+/* ============================================================
+   NEWSLETTER-SEITE
+   ============================================================ */
+.newsletterContent {
+    max-width: 46rem;
+    width: 100%;
+    margin: 0 auto 2rem auto;
+    gap: 0;
+}
+
+.newsletterPageImage {
+    max-height: 320px;
+    border-radius: 12px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.newsletterCard {
+    background: var(--shop-surface);
+    border-radius: 12px;
+    box-shadow: var(--shop-shadow-card);
+    padding: 2rem;
+    gap: 0.5rem;
+}
+
+.newsletterMainTitle {
+    margin-bottom: 0.5rem;
+}
+
+.newsletterSubHeading {
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--shop-brand-bg);
+}
+
+.newsletterParagraph {
+    color: var(--shop-text-subtle);
+    margin-bottom: 0.5rem;
+}
+
+.newsletterNote {
+    font-style: italic;
+}
+
+.newsletterBenefitList .sapMSLIIcon {
+    color: var(--shop-offer-bg);
+}
+
+.newsletterSuccessBanner {
+    background-color: var(--shop-offer-bg);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    gap: 0.75rem;
+    box-shadow: var(--shop-shadow-card);
+    animation: newsletterSuccessIn 0.3s ease;
+}
+
+.newsletterSuccessIcon {
+    color: var(--shop-offer-text);
+    font-size: 1.5rem;
+}
+
+.newsletterSuccessText {
+    color: var(--shop-offer-text) !important;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.newsletterSuccessSubtext {
+    color: var(--shop-offer-text) !important;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+@keyframes newsletterSuccessIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.newsletterSubscribeButton {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+    .newsletterContent {
+        max-width: 100%;
+    }
+
+    .newsletterCard {
+        border-radius: 0;
+        padding: 1.25rem;
+    }
+
+    .newsletterPageImage {
+        border-radius: 0;
+    }
+}
+
+
+/* ============================================================
+   DRUCKANSICHT
+   ============================================================ */
+@media print {
+
+    .globalHeader,
+    .globalFooter,
+    .noPrint {
+        display: none !important;
+    }
+
+    .sapMApp.appBody {
+        position: static;
+        top: 0;
+    }
+
+    .checkoutContent {
+        max-width: none;
+        margin: 0;
+    }
+
+    .checkoutCard {
+        box-shadow: none;
+        border: 1px solid var(--shop-border);
+        break-inside: avoid;
+    }
+}
+
+
+@media (max-width: 900px) and (min-width: 769px) {
+
+    .categorySidebar {
+        width: 160px;
+        min-width: 160px;
+    }
+
+    .categorySidebarTitle {
+        padding: 0.75rem 0.75rem 0.35rem 0.75rem;
+    }
+
+    .filterPanel {
+        margin: 0.75rem 0.5rem 1rem 0.5rem;
+    }
+
+    .filterForm,
+    .filterGroup {
+        gap: 0.5rem;
+    }
+
+    .productsArea {
+        margin-left: 0.5rem;
+    }
+
+    .sortBarProductOverview {
+        margin-right: 0 !important;
+        padding: 0 0.75rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE – Startseite (Mobile / kleines Tablet), ≤ 768 px
+   ============================================================ */
+@media (max-width: 768px) {
+
+    .shopContent {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .angebot {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0;
+    }
+
+    /* UI5-Grid setzt inline-Stile (width, float) auf den Kacheln, daher !important */
+    .categoryGrid .sapUiLayoutGridSpanL6,
+    .categoryGrid .sapUiLayoutGridSpanM6,
+    .categoryGrid .sapUiLayoutGridSpanS6,
+    .categoryGrid>.sapUiLayoutGridC,
+    .categoryGrid .sapUiLayoutGrid>div {
+        width: 100% !important;
+        float: none !important;
+    }
+
+    .categoryTile {
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        border: var(--shop-surface) 2px solid;
+    }
+
+    .newsletterImage {
+        border-radius: 0;
+        max-height: 160px;
+        width: 100% !important;
+    }
+
+    .newProductCard {
+        flex: 1 1 calc(50% - 0.5rem);
+    }
+}
+
+/* ============================================================
+   RESPONSIVE – Smartphone, ≤ 480 px
+   ============================================================ */
+@media (max-width: 480px) {
+
+    .newProductCard {
+        flex: 1 1 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .categoryTile {
+        border-radius: 10px;
+        border: var(--shop-surface) 2px solid;
+        align-content: center !important;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE – Produktübersicht (Mobile / kleines Tablet), ≤ 768 px
+   ============================================================ */
+@media (max-width: 768px) {
+
+    .productOverviewLayout {
+        flex-wrap: wrap;
+    }
+
+    /* order: 2 - erscheint nach der Kategorie-Auswahl, siehe .categorySidebar */
+    .filterPanel,
+    .filterPanel.sapMPanel {
+        order: 2;
+        width: calc(100% - 2 * var(--shop-inline-space)) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0.5rem var(--shop-inline-space) !important;
+        box-sizing: border-box !important;
+    }
+
+    .filterPanel .sapMPanelContent {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+    }
+
+    .filterForm {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 1rem;
+    }
+
+    /* Feste Maße hier, damit Kategorie- und Filter-Toggle immer identisch aussehen,
+       unabhängig vom UI5-Control, das im jeweiligen Fragment genutzt wird */
+    .dropdownToggleButton {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 2.75rem !important;
+        box-sizing: border-box !important;
+        border: 1px solid var(--shop-border) !important;
+        border-radius: 8px !important;
+        background: var(--shop-surface) !important;
+    }
+
+    .dropdownToggleButton.sapMBtn {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 2.75rem !important;
+    }
+
+    .dropdownToggleButton .sapMBtnInner {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        border-radius: 8px;
+    }
+
+    .dropdownToggleButton .sapMBtnContent {
+        flex: 1;
+        text-align: left;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .desktopOnlyTitle {
+        display: none !important;
+    }
+
+    .filterPanel .sapMPanelHdr {
+        display: none;
+    }
+
+    /* order: 1 - Kategorie-Seitenleiste erscheint vor dem Filter, volle Breite */
+    .categorySidebar {
+        order: 1;
+        width: calc(100% - 2 * var(--shop-inline-space)) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        border-right: none;
+        margin: 0.5rem var(--shop-inline-space) !important;
+        box-sizing: border-box !important;
+    }
+
+    .dropdownContent {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+    }
+
+    .dropdownContent.dropdownOpen {
+        max-height: 600px;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+    }
+
+    .productsArea {
+        order: 3;
+        flex-basis: 100%;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    /* Die Detailseite nutzt dasselbe Layout mit anderer Content-Klasse; ohne
+       eigene order-Regel stünde sie vor der Kategorie-Seitenleiste */
+    .productDetailArea {
+        order: 2;
+        flex-basis: 100%;
+        width: calc(100% - 2 * var(--shop-inline-space)) !important;
+        max-width: 100% !important;
+        margin: 0.5rem var(--shop-inline-space) !important;
+        box-sizing: border-box !important;
+    }
+
+    .sortBarProductOverview {
+        margin-right: 0 !important;
+        padding: 0 0.5rem;
+    }
+
+}

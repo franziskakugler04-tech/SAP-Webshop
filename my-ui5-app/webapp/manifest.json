@@ -1,0 +1,155 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "my.ui5.app",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://product",
+            "favIcon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "rootView": {
+            "viewName": "my.ui5.app.view.App",
+            "type": "XML",
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "my.ui5.app.i18n.i18n"
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "my.ui5.app.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "async": true
+            },
+            "routes": [
+                {
+                    "name": "main",
+                    "pattern": "",
+                    "target": "main"
+                },
+                {
+                    "name": "products",
+                    "pattern": "products/:category::?query:",
+                    "target": "productOverview"
+                },
+                {
+                    "name": "productDetail",
+                    "pattern": "products/{category}/{productId}",
+                    "target": "productDetail"
+                },
+                {
+                    "name": "login",
+                    "pattern": "login",
+                    "target": "login"
+                },
+                {
+                    "name": "register",
+                    "pattern": "register",
+                    "target": "register"
+                },
+                {
+                    "name": "profile",
+                    "pattern": "profile",
+                    "target": "profile"
+                },
+                {
+                    "name": "checkout",
+                    "pattern": "checkout",
+                    "target": "checkout"
+                },
+                {
+                    "name": "orderConfirmation",
+                    "pattern": "orderConfirmation",
+                    "target": "orderConfirmation"
+                },
+                {
+                    "pattern": "newsletter",
+                    "name": "newsletter",
+                    "target": "newsletter"
+                }
+            ],
+            "targets": {
+                "main": {
+                    "viewId": "main",
+                    "viewName": "Main"
+                },
+                "login": {
+                    "viewId": "login",
+                    "viewName": "Login"
+                },
+                "register": {
+                    "viewId": "register",
+                    "viewName": "Register"
+                },
+                "profile": {
+                    "viewId": "profile",
+                    "viewName": "Profile"
+                },
+                "notFound": {
+                    "viewId": "notFound",
+                    "viewName": "NotFound"
+                },
+                "productOverview": {
+                    "viewId": "productOverview",
+                    "viewName": "ProductOverview"
+                },
+                "productDetail": {
+                    "viewId": "productDetail",
+                    "viewName": "ProductDetail"
+                },
+                "checkout": {
+                    "viewId": "checkout",
+                    "viewName": "Checkout"
+                },
+                "orderConfirmation": {
+                    "viewId": "orderConfirmation",
+                    "viewName": "OrderConfirmation"
+                },
+                "newsletter": {
+                    "viewType": "XML",
+                    "viewName": "Newsletter",
+                    "viewLevel": 2
+                }
+            }
+        }
+    }
+}

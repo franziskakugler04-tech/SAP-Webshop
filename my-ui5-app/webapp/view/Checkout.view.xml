@@ -1,0 +1,415 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.Checkout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m">
+
+    <Page title="{i18n>checkoutTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+
+            <VBox class="checkoutContent">
+
+                <!-- Lieferadresse. Jede Karte hat zwei Zustände, Zusammenfassung oder
+                     Formular; welcher gilt, steht in "checkout" unter /EditSection -->
+                <Panel class="checkoutCard">
+                    <content>
+
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            alignItems="Center"
+                            visible="{= ${checkout>/EditSection} !== 'Address' }">
+                            <VBox>
+                                <Title
+                                    level="H3"
+                                    text="{parts: [
+                                        {path: 'user>/CurrentUser/FirstName'},
+                                        {path: 'user>/CurrentUser/LastName'},
+                                        {path: 'checkout>/Address/CompanyName'}
+                                    ], formatter: '.formatAddressTitle'}"/>
+                                <Text
+                                    class="checkoutCardLine"
+                                    text="{parts: [
+                                        {path: 'checkout>/Address/Street'},
+                                        {path: 'checkout>/Address/PostalCode'},
+                                        {path: 'checkout>/Address/City'},
+                                        {path: 'checkout>/Address/Country'}
+                                    ], formatter: '.formatAddressLine'}"/>
+                            </VBox>
+                            <Button
+                                icon="sap-icon://edit"
+                                type="Transparent"
+                                tooltip="{i18n>checkoutEditBtn}"
+                                press=".onEditSection('Address')"/>
+                        </HBox>
+
+                        <VBox visible="{= ${checkout>/EditSection} === 'Address' }">
+                            <Title level="H3" text="{i18n>checkoutAddressPanel}"/>
+
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false">
+                                <form:content>
+
+                                    <Label text="{i18n>profileCountryLabel}" required="true" labelFor="checkoutCountrySelect"/>
+                                    <Select
+                                        id="checkoutCountrySelect"
+                                        selectedKey="{checkout>/Address/Country}"
+                                        change="onCountryChange">
+                                        <core:Item key="DE" text="{i18n>countryDe}"/>
+                                        <core:Item key="AT" text="{i18n>countryAt}"/>
+                                        <core:Item key="CH" text="{i18n>countryCh}"/>
+                                    </Select>
+
+                                    <Label text="{i18n>profileStreetLabel}" required="true" labelFor="checkoutStreetInput"/>
+                                    <Input
+                                        id="checkoutStreetInput"
+                                        value="{checkout>/Address/Street}"
+                                        placeholder="{i18n>registerStreetPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>profilePostalCodeLabel}" required="true" labelFor="checkoutPostalCodeInput"/>
+                                    <Input
+                                        id="checkoutPostalCodeInput"
+                                        maxLength="5"
+                                        value="{checkout>/Address/PostalCode}"
+                                        placeholder="{i18n>registerPostalCodePlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>profileCityLabel}" required="true" labelFor="checkoutCityInput"/>
+                                    <Input
+                                        id="checkoutCityInput"
+                                        value="{checkout>/Address/City}"
+                                        placeholder="{i18n>registerCityPlaceholder}"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label text="{i18n>profileCompanyLabel}" labelFor="checkoutCompanyInput"/>
+                                    <Input
+                                        id="checkoutCompanyInput"
+                                        value="{checkout>/Address/CompanyName}"
+                                        placeholder="{i18n>registerCompanyPlaceholder}"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <!-- Die Aktionen betreffen nur diese Karte und stehen
+                                 deshalb bei ihr, nicht in der Fußleiste der Seite -->
+                            <HBox class="checkoutCardActions" justifyContent="End">
+                                <Button
+                                    text="{i18n>checkoutApplyBtn}"
+                                    type="Emphasized"
+                                    press=".onApplySection('Address')"/>
+                                <Button
+                                    text="{i18n>checkoutCancelBtn}"
+                                    type="Transparent"
+                                    press=".onCancelSection('Address')"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- Zahlungsart. Welche Felder dazugehören, hängt an der gewählten
+                     Art - wie schon bei Registrierung und Profil -->
+                <Panel class="checkoutCard">
+                    <content>
+
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            alignItems="Center"
+                            visible="{= ${checkout>/EditSection} !== 'Payment' }">
+                            <VBox>
+                                <Title
+                                    level="H3"
+                                    text="{path: 'checkout>/Payment/Type', formatter: '.formatPaymentTitle'}"/>
+                                <Text
+                                    class="checkoutCardLine"
+                                    text="{parts: [
+                                        {path: 'checkout>/Payment/Type'},
+                                        {path: 'checkout>/Payment/CardHolder'},
+                                        {path: 'checkout>/Payment/CardNumber'},
+                                        {path: 'checkout>/Payment/AccountHolder'},
+                                        {path: 'checkout>/Payment/Iban'},
+                                        {path: 'checkout>/Payment/PaypalEmail'}
+                                    ], formatter: '.formatPaymentLine'}"/>
+                            </VBox>
+                            <Button
+                                icon="sap-icon://edit"
+                                type="Transparent"
+                                tooltip="{i18n>checkoutEditBtn}"
+                                press=".onEditSection('Payment')"/>
+                        </HBox>
+
+                        <VBox visible="{= ${checkout>/EditSection} === 'Payment' }">
+                            <Title level="H3" text="{i18n>checkoutPaymentPanel}"/>
+
+                            <form:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                labelSpanXL="12"
+                                labelSpanL="12"
+                                labelSpanM="12"
+                                labelSpanS="12"
+                                adjustLabelSpan="false">
+                                <form:content>
+
+                                    <Label text="{i18n>profilePaymentTypeLabel}" labelFor="checkoutPaymentTypeButton"/>
+                                    <SegmentedButton
+                                        id="checkoutPaymentTypeButton"
+                                        selectedKey="{checkout>/Payment/Type}"
+                                        selectionChange="onPaymentTypeChange">
+                                        <items>
+                                            <SegmentedButtonItem key="CARD" text="{i18n>paymentCard}"/>
+                                            <SegmentedButtonItem key="SEPA" text="{i18n>paymentSepa}"/>
+                                            <SegmentedButtonItem key="PAYPAL" text="{i18n>paymentPaypal}"/>
+                                        </items>
+                                    </SegmentedButton>
+
+                                    <!-- SEPA-Lastschrift -->
+                                    <Label
+                                        text="{i18n>profileAccountHolderLabel}"
+                                        required="true"
+                                        labelFor="checkoutAccountHolderInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'SEPA' }"/>
+                                    <Input
+                                        id="checkoutAccountHolderInput"
+                                        value="{checkout>/Payment/AccountHolder}"
+                                        placeholder="{i18n>registerAccountHolderPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'SEPA' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label
+                                        text="{i18n>profileIbanLabel}"
+                                        required="true"
+                                        labelFor="checkoutIbanInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'SEPA' }"/>
+                                    <Input
+                                        id="checkoutIbanInput"
+                                        value="{checkout>/Payment/Iban}"
+                                        placeholder="{i18n>registerIbanPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'SEPA' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <!-- Kreditkarte -->
+                                    <Label
+                                        text="{i18n>profileCardHolderLabel}"
+                                        required="true"
+                                        labelFor="checkoutCardHolderInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"/>
+                                    <Input
+                                        id="checkoutCardHolderInput"
+                                        value="{checkout>/Payment/CardHolder}"
+                                        placeholder="{i18n>registerCardHolderPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label
+                                        text="{i18n>profileCardNumberLabel}"
+                                        required="true"
+                                        labelFor="checkoutCardNumberInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"/>
+                                    <Input
+                                        id="checkoutCardNumberInput"
+                                        value="{checkout>/Payment/CardNumber}"
+                                        placeholder="{i18n>registerCardNumberPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <Label
+                                        text="{i18n>profileCardExpiryLabel}"
+                                        required="true"
+                                        labelFor="checkoutCardExpiryInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"/>
+                                    <Input
+                                        id="checkoutCardExpiryInput"
+                                        value="{checkout>/Payment/CardExpiry}"
+                                        placeholder="{i18n>registerCardExpiryPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <!-- Die Prüfziffer wird nicht gespeichert und
+                                         deshalb für jede Zahlung neu abgefragt -->
+                                    <Label
+                                        text="{i18n>registerCardCvcLabel}"
+                                        required="true"
+                                        labelFor="checkoutCardCvcInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"/>
+                                    <Input
+                                        id="checkoutCardCvcInput"
+                                        maxLength="3"
+                                        value="{checkout>/Payment/CardCvc}"
+                                        placeholder="{i18n>registerCardCvcPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'CARD' }"
+                                        liveChange="onInputLiveChange"/>
+
+                                    <!-- PayPal -->
+                                    <Label
+                                        text="{i18n>profilePaypalEmailLabel}"
+                                        required="true"
+                                        labelFor="checkoutPaypalEmailInput"
+                                        visible="{= ${checkout>/Payment/Type} === 'PAYPAL' }"/>
+                                    <Input
+                                        id="checkoutPaypalEmailInput"
+                                        type="Email"
+                                        value="{checkout>/Payment/PaypalEmail}"
+                                        placeholder="{i18n>registerPaypalEmailPlaceholder}"
+                                        visible="{= ${checkout>/Payment/Type} === 'PAYPAL' }"
+                                        liveChange="onInputLiveChange"/>
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <HBox class="checkoutCardActions" justifyContent="End">
+                                <Button
+                                    text="{i18n>checkoutApplyBtn}"
+                                    type="Emphasized"
+                                    press=".onApplySection('Payment')"/>
+                                <Button
+                                    text="{i18n>checkoutCancelBtn}"
+                                    type="Transparent"
+                                    press=".onCancelSection('Payment')"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- Versandart, ohne Bearbeitungsmodus - die Auswahl ist schon die
+                     Änderung. Liste statt RadioButtonGroup wegen der drei Angaben -->
+                <Panel class="checkoutCard" headerText="{i18n>checkoutShippingPanel}">
+                    <content>
+                        <List
+                            id="shippingList"
+                            items="{shipping>/ShippingOptions}"
+                            mode="SingleSelectLeft"
+                            includeItemInSelection="true"
+                            selectionChange="onShippingSelect">
+                            <ObjectListItem
+                                title="{path: 'shipping>NameKey', formatter: '.formatTextKey'}"
+                                selected="{= ${shipping>ShippingId} === ${checkout>/ShippingId} }"
+                                number="{path: 'shipping>Price', formatter: '.formatter.formatPrice'}">
+                                <attributes>
+                                    <ObjectAttribute text="{path: 'shipping>HintKey', formatter: '.formatTextKey'}"/>
+                                    <ObjectAttribute text="{path: 'shipping>DeliveryDays', formatter: '.formatShippingDelivery'}"/>
+                                </attributes>
+                            </ObjectListItem>
+                        </List>
+                    </content>
+                </Panel>
+
+                <!-- Gutschein -->
+                <Panel class="checkoutCard" headerText="{i18n>checkoutCouponPanel}">
+                    <content>
+                        <HBox class="checkoutCouponRow" alignItems="Center" wrap="Wrap">
+                            <Input
+                                id="checkoutCouponInput"
+                                value="{checkout>/CouponCode}"
+                                placeholder="{i18n>checkoutCouponPlaceholder}"
+                                enabled="{= !${checkout>/AppliedCoupon} }"
+                                liveChange="onInputLiveChange"
+                                submit="onApplyCoupon"/>
+                            <Button
+                                text="{i18n>checkoutCouponApplyBtn}"
+                                visible="{= !${checkout>/AppliedCoupon} }"
+                                press="onApplyCoupon"/>
+                            <Button
+                                text="{i18n>checkoutCouponRemoveBtn}"
+                                type="Transparent"
+                                visible="{= !!${checkout>/AppliedCoupon} }"
+                                press="onRemoveCoupon"/>
+                        </HBox>
+                        <Text
+                            class="checkoutCardLine"
+                            text="{path: 'checkout>/AppliedCoupon', formatter: '.formatCouponInfo'}"
+                            visible="{= !!${checkout>/AppliedCoupon} }"/>
+                    </content>
+                </Panel>
+
+                <!-- Positionen. mode="Delete" liefert den Löschen-Knopf je Zeile, das
+                     StepInput hält die Grenzen 1 bis Lagerbestand selbst ein -->
+                <Panel class="checkoutCard" headerText="{i18n>checkoutItemsPanel}">
+                    <content>
+                        <List
+                            id="checkoutItemList"
+                            items="{cart>/Items}"
+                            mode="Delete"
+                            delete="onCartItemDelete">
+                            <CustomListItem>
+                                <HBox class="checkoutLineItem" alignItems="Center" wrap="Wrap">
+                                    <Image src="{cart>ImageUrl}" alt="{cart>Name}" decorative="false" class="checkoutLineImage"/>
+                                    <VBox class="checkoutLineText">
+                                        <Text text="{cart>Name}"/>
+                                        <Text
+                                            class="checkoutLineUnitPrice"
+                                            text="{path: 'cart>Price', formatter: '.formatUnitPrice'}"/>
+                                    </VBox>
+                                    <StepInput
+                                        value="{cart>Quantity}"
+                                        min="1"
+                                        max="{cart>Stock}"
+                                        width="7rem"
+                                        change="onQuantityChange"/>
+                                    <ObjectNumber
+                                        class="checkoutLinePrice"
+                                        number="{parts: [
+                                            {path: 'cart>Price'},
+                                            {path: 'cart>Quantity'}
+                                        ], formatter: '.formatter.formatLinePrice'}"/>
+                                </HBox>
+                            </CustomListItem>
+                        </List>
+                    </content>
+                </Panel>
+
+                <!-- Summen -->
+                <Panel class="checkoutCard">
+                    <content>
+                        <VBox class="checkoutSummary">
+                            <HBox justifyContent="SpaceBetween">
+                                <Label text="{i18n>cartSubtotalLabel}"/>
+                                <Text text="{path: 'checkout>/Totals/Subtotal', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                            <HBox justifyContent="SpaceBetween" visible="{= !!${checkout>/AppliedCoupon} }">
+                                <Label text="{i18n>checkoutDiscountLabel}"/>
+                                <Text text="{path: 'checkout>/Totals/Discount', formatter: '.formatDiscount'}"/>
+                            </HBox>
+                            <HBox justifyContent="SpaceBetween">
+                                <Label text="{i18n>checkoutShippingCostLabel}"/>
+                                <Text text="{path: 'checkout>/Totals/Shipping', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                            <HBox class="checkoutTotalRow" justifyContent="SpaceBetween">
+                                <Title level="H3" text="{i18n>checkoutTotalLabel}"/>
+                                <Title
+                                    level="H3"
+                                    text="{path: 'checkout>/Totals/Total', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+
+            <!-- Fußzeile als letztes Element im Seiteninhalt, damit sie mit
+                 dem Inhalt scrollt statt ihn zu überdecken -->
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+
+        <!-- Abschließende Aktionen rechtsbündig, häufigste Aktion zuletzt:
+             genau ein hervorgehobener Knopf, der Rückweg transparent -->
+        <footer>
+            <OverflowToolbar>
+                <Button
+                    text="{i18n>checkoutBackToShopBtn}"
+                    type="Transparent"
+                    press="onNavBack"/>
+                <ToolbarSpacer/>
+                <Button
+                    text="{i18n>checkoutOrderBtn}"
+                    type="Emphasized"
+                    enabled="{= ${cart>/Items}.length > 0 }"
+                    press="onPlaceOrder"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

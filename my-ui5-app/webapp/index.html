@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Webshop für Büromaterialien">
+    <title>My UI5 App</title>
+
+    <script id="sap-ui-bootstrap" src="https://sdk.openui5.org/resources/sap-ui-core.js" data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resourceroots='{"my.ui5.app": "./"}' data-sap-ui-oninit="module:my/ui5/app/index"
+        data-sap-ui-compatVersion="edge" data-sap-ui-async="true" data-sap-ui-frameOptions="trusted"
+        data-sap-ui-libs="sap.m, sap.ui.core, sap.ui.layout">
+        </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+        /* 100% statt eines festen Wertes: Nur so ist der Seitenbereich genau so
+           hoch wie das Fenster. Bei einer festen Höhe scrollt zusätzlich zum
+           Seiteninhalt auch noch das Browserfenster - man hätte zwei Scrollbalken. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="sapUiBody" id="content">
+</body>
+
+</html>

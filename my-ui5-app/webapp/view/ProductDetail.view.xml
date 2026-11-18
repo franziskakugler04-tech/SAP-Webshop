@@ -1,0 +1,143 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.ProductDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page title="{i18n>productDetailTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <HBox class="productOverviewLayout">
+
+                <!-- Linke Spalte: Kategorie-Navigation. Bewusst als Code-Duplikat aus
+                     ProductOverview.view.xml und nicht als Fragment -->
+                <VBox class="categorySidebar" id="categorySidebarBox">
+                    <Button
+                        id="categoryToggleButton"
+                        text="{i18n>categoriesTitle}"
+                        icon="sap-icon://slim-arrow-down"
+                        iconFirst="false"
+                        press="onToggleCategoryDropdown"
+                        class="dropdownToggleButton"/>
+                    <Title text="{i18n>categoriesTitle}" level="H3" class="categorySidebarTitle desktopOnlyTitle"/>
+                    <VBox id="categoryDropdownContent" class="dropdownContent">
+                        <List
+                            id="categoryList"
+                            mode="SingleSelectMaster"
+                            selectionChange="onCategorySelect"
+                            items="{categories>/Categories}">
+                            <StandardListItem title="{path: 'categories>NameKey', formatter: '.formatTextKey'}"/>
+                        </List>
+                    </VBox>
+                </VBox>
+
+                <!-- Mittlere Spalte: Produktdetails. Bewusst ohne flex:1 (siehe style.css),
+                     die Spalte ist nur so breit wie die Panels selbst -->
+                <VBox class="productDetailArea">
+
+                    <!-- Panel 1: alle Kerninfos zum Produkt in einer Karte -->
+                    <Panel class="productDetailInfoPanel">
+                        <content>
+                            <VBox>
+                            <Text
+                                text="{i18n>productDetailSpringOfferBadge}"
+                                visible="{= ${product>/ProductId} === 'P001'}"
+                                class="productDetailSpringOfferBadge"/>
+                                <!-- Kopfzeile: Bewertung links, Name mittig, Preis rechts -->
+                                <HBox justifyContent="SpaceBetween" alignItems="Center" class="productDetailHeaderRow">
+                                    <HBox alignItems="Center" class="productRatingRow">
+                                        <RatingIndicator value="{product>/Rating}" maxValue="5" editable="false" iconSize="1.2rem"/>
+                                        <Text text="({product>/RatingCount})" class="ratingCount"/>
+                                    </HBox>
+                                    <Title text="{product>/Name}" level="H2" class="productDetailName"/>
+                                    <HBox alignItems="Baseline" class="productPriceRow">
+                                        <ObjectNumber
+                                            number="{path: 'product>/OnSalePrice', formatter: '.formatter.formatPrice'}"
+                                            visible="{product>/IsOnSale}"
+                                            class="productPrice productPriceSale"/>
+                                        <Text
+                                            text="{path: 'product>/Price', formatter: '.formatter.formatPrice'}"
+                                            visible="{product>/IsOnSale}"
+                                            class="productPriceOld"/>
+                                        <ObjectNumber
+                                            number="{path: 'product>/Price', formatter: '.formatter.formatPrice'}"
+                                            visible="{= !${product>/IsOnSale} }"
+                                            class="productPrice"/>
+                                    </HBox>
+                                </HBox>
+
+                                <!-- Bild links, Beschreibung rechts -->
+                                <HBox class="productDetailMainRow">
+                                    <Image src="{product>/ImageUrl}" alt="{product>/Name}" decorative="false" class="productDetailImage"/>
+                                    <Text text="{product>/Description}" class="productDetailDescription"/>
+                                </HBox>
+
+                                <!-- Lieferung, Hersteller, Aktionen -->
+                                <HBox justifyContent="SpaceBetween" alignItems="Center" class="productDetailInfoRow">
+                                    <HBox alignItems="Center" class="productDeliveryRow">
+                                        <core:Icon src="sap-icon://shipping-status" class="deliveryIcon"/>
+                                        <Text text="{product>/DeliveryText}"/>
+                                    </HBox>
+                                    <Text text="{product>/Manufacturer}" class="productDetailManufacturer"/>
+                                    <HBox class="productActions">
+                                        <Button icon="sap-icon://heart" type="Transparent" class="favButton productPanelBtn" tooltip="{i18n>productFavoriteTooltip}" press="onFavoritePress"/>
+                                        <Button icon="sap-icon://cart-3" type="Transparent" class="cartButton productPanelBtn" tooltip="{i18n>productCartTooltip}" press="onAddToCart"/>
+                                    </HBox>
+                                </HBox>
+                            </VBox>
+                        </content>
+                    </Panel>
+
+                    <!-- Panel 2: Bewertung abgeben -->
+                    <Panel class="productDetailRatingPanel">
+                        <content>
+                            <VBox>
+                                <Title text="{i18n>productDetailRateThis}" level="H4"/>
+                                <HBox alignItems="Center" class="productDetailRatingRow">
+
+                                    <!-- Eingabe: nur sichtbar, solange noch nicht abgesendet -->
+                                    <RatingIndicator
+                                        id="userRatingIndicator"
+                                        value="{product>/userRatingValue}"
+                                        maxValue="5"
+                                        iconSize="1.5rem"
+                                        editable="true"
+                                        visible="{= !${product>/userRatingSubmitted} }"
+                                        change="onUserRatingChange"/>
+
+                                    <!-- Anzeige: ersetzt die Eingabe nach dem Absenden -->
+                                    <RatingIndicator
+                                        value="{product>/userRatingValue}"
+                                        maxValue="5"
+                                        iconSize="1.5rem"
+                                        editable="false"
+                                        visible="{product>/userRatingSubmitted}"/>
+
+                                    <Button
+                                        text="{i18n>productDetailSubmitRating}"
+                                        press="onSubmitRating"
+                                        enabled="{= ${product>/userRatingValue} > 0 }"
+                                        visible="{= !${product>/userRatingSubmitted} }"
+                                        class="submitRatingButton"/>
+
+                                    <Text
+                                        text="{i18n>productDetailRatingThanks}"
+                                        visible="{product>/userRatingSubmitted}"
+                                        class="ratingThanksText"/>
+                                </HBox>
+                            </VBox>
+                        </content>
+                    </Panel>
+
+                    <!-- Panel 3: Vorschläge, ohne das gerade offene Produkt -->
+                    <Panel class="productDetailRecommendationsPanel">
+                        <content>
+                            <core:Fragment fragmentName="my.ui5.app.fragment.ProductRecommendations" type="XML"/>
+                        </content>
+                    </Panel>
+
+                </VBox>
+            </HBox>
+
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+    </Page>
+</mvc:View>

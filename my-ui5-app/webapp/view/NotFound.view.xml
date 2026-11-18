@@ -1,0 +1,11 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.NotFound"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <!-- Hinweisseite für unbekannte Routen -->
+    <MessagePage
+        title="{i18n>notFoundTitle}"
+        text="{i18n>notFoundText}"
+        icon="sap-icon://document-text" />
+</mvc:View>

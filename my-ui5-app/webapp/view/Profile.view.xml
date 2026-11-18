@@ -1,0 +1,785 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.Profile"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m">
+    <Page title="{i18n>profileTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+
+            <VBox class="authCard authCardWide">
+
+                <!-- Anmeldedaten aus der Registrierung, jede Zeile einzeln änderbar.
+                     Welche gerade offen ist, steht in "profile" unter /EditField -->
+                <Panel headerText="{i18n>profileAccountPanel}">
+                    <content>
+                        <form:SimpleForm
+                            layout="ResponsiveGridLayout"
+                            editable="true"
+                            labelSpanXL="12"
+                            labelSpanL="12"
+                            labelSpanM="12"
+                            labelSpanS="12"
+                            adjustLabelSpan="false">
+                            <form:content>
+
+                                <Label text="{i18n>profileFirstNameLabel}" required="true" labelFor="profileFirstNameInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text text="{user>/CurrentUser/FirstName}" visible="{= ${profile>/EditField} !== 'FirstName' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileFirstNameInput"
+                                        value="{profile>/Value}"
+                                        visible="{= ${profile>/EditField} === 'FirstName' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('FirstName')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <!-- Der Feldname geht als Parameter an den Handler,
+                                         so genügt einer für alle vier Zeilen -->
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'FirstName' }"
+                                        press=".onEditField('FirstName')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'FirstName' }"
+                                        press=".onSaveField('FirstName')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'FirstName' }"
+                                        press=".onCancelEdit('FirstName')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profileLastNameLabel}" required="true" labelFor="profileLastNameInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text text="{user>/CurrentUser/LastName}" visible="{= ${profile>/EditField} !== 'LastName' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileLastNameInput"
+                                        value="{profile>/Value}"
+                                        visible="{= ${profile>/EditField} === 'LastName' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('LastName')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'LastName' }"
+                                        press=".onEditField('LastName')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'LastName' }"
+                                        press=".onSaveField('LastName')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'LastName' }"
+                                        press=".onCancelEdit('LastName')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profileEmailLabel}" required="true" labelFor="profileEmailInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text text="{user>/CurrentUser/Email}" visible="{= ${profile>/EditField} !== 'Email' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileEmailInput"
+                                        type="Email"
+                                        value="{profile>/Value}"
+                                        visible="{= ${profile>/EditField} === 'Email' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Email')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Email' }"
+                                        press=".onEditField('Email')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Email' }"
+                                        press=".onSaveField('Email')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Email' }"
+                                        press=".onCancelEdit('Email')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profilePhoneLabel}" labelFor="profilePhoneInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Phone', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Phone' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profilePhoneInput"
+                                        type="Tel"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerPhonePlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Phone' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Phone')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Phone' }"
+                                        press=".onEditField('Phone')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Phone' }"
+                                        press=".onSaveField('Phone')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Phone' }"
+                                        press=".onCancelEdit('Phone')"/>
+                                </HBox>
+
+                                <!-- required, aber ohne labelFor: In dieser Zeile steht
+                                     kein Eingabefeld, das Passwort ändert der Dialog -->
+                                <Label text="{i18n>profilePasswordLabel}" required="true"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <!-- Das Passwort wird nie angezeigt, nur seine Existenz -->
+                                    <Text text="{i18n>profilePasswordMasked}">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <!-- Kein Umschalten der Zeile: Die drei Felder fürs
+                                         neue Passwort öffnen sich im Dialog -->
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        press="onEditPassword"/>
+                                </HBox>
+                            </form:content>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Adresse, dieselben Zeilen mit Stift wie oben. Leere Zeilen melden
+                     "nicht angegeben"; ohne Sternchen, weil die Adresse freiwillig ist -->
+                <Panel headerText="{i18n>profileAddressPanel}">
+                    <content>
+                        <form:SimpleForm
+                            layout="ResponsiveGridLayout"
+                            editable="true"
+                            labelSpanXL="12"
+                            labelSpanL="12"
+                            labelSpanM="12"
+                            labelSpanS="12"
+                            adjustLabelSpan="false">
+                            <form:content>
+
+                                <Label text="{i18n>profileCountryLabel}" labelFor="profileCountrySelect"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Address/Country', formatter: '.formatCountry'}"
+                                        visible="{= ${profile>/EditField} !== 'Address/Country' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>                                
+                                    <Select
+                                        id="profileCountrySelect"
+                                        selectedKey="{profile>/CountryValue}"
+                                        visible="{= ${profile>/EditField} === 'Address/Country' }">
+                                        <core:Item key="DE" text="{i18n>countryDe}"/>
+                                        <core:Item key="AT" text="{i18n>countryAt}"/>
+                                        <core:Item key="CH" text="{i18n>countryCh}"/>
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Select>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Address/Country' }"
+                                        press=".onEditField('Address/Country')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/Country' }"
+                                        press=".onSaveField('Address/Country')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/Country' }"
+                                        press=".onCancelEdit('Address/Country')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profileCityLabel}" labelFor="profileCityInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Address/City', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Address/City' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileCityInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerCityPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Address/City' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Address/City')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Address/City' }"
+                                        press=".onEditField('Address/City')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/City' }"
+                                        press=".onSaveField('Address/City')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/City' }"
+                                        press=".onCancelEdit('Address/City')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profilePostalCodeLabel}" labelFor="profilePostalCodeInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Address/PostalCode', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Address/PostalCode' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profilePostalCodeInput"
+                                        maxLength="5"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerPostalCodePlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Address/PostalCode' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Address/PostalCode')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Address/PostalCode' }"
+                                        press=".onEditField('Address/PostalCode')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/PostalCode' }"
+                                        press=".onSaveField('Address/PostalCode')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/PostalCode' }"
+                                        press=".onCancelEdit('Address/PostalCode')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profileStreetLabel}" labelFor="profileStreetInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Address/Street', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Address/Street' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileStreetInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerStreetPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Address/Street' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Address/Street')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Address/Street' }"
+                                        press=".onEditField('Address/Street')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/Street' }"
+                                        press=".onSaveField('Address/Street')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/Street' }"
+                                        press=".onCancelEdit('Address/Street')"/>
+                                </HBox>
+
+                                <Label text="{i18n>profileCompanyLabel}" labelFor="profileCompanyInput"/>
+                                <HBox width="100%" alignItems="Center">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Address/CompanyName', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Address/CompanyName' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileCompanyInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerCompanyPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Address/CompanyName' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Address/CompanyName')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Address/CompanyName' }"
+                                        press=".onEditField('Address/CompanyName')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/CompanyName' }"
+                                        press=".onSaveField('Address/CompanyName')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Address/CompanyName' }"
+                                        press=".onCancelEdit('Address/CompanyName')"/>
+                                </HBox>
+                            </form:content>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Zahlungsmittel, wie oben; es gibt genau eins. Welche Felder
+                     dazugehören, hängt an der Zahlungsart -->
+                <Panel headerText="{i18n>profilePaymentPanel}">
+                    <content>
+                        <form:SimpleForm
+                            layout="ResponsiveGridLayout"
+                            editable="true"
+                            labelSpanXL="12"
+                            labelSpanL="12"
+                            labelSpanM="12"
+                            labelSpanS="12"
+                            adjustLabelSpan="false">
+                            <form:content>
+
+                                <Label text="{i18n>profilePaymentTypeLabel}" labelFor="profilePaymentTypeButton"/>
+                                <HBox width="100%" alignItems="Center" wrap="Wrap">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/Type', formatter: '.formatPaymentType'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/Type' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <!-- Derselbe Umschalter wie in der Registrierung. Eigener
+                                         Zwischenspeicher, weil er nur die drei Arten kennt -->
+                                    <SegmentedButton
+                                        id="profilePaymentTypeButton"
+                                        selectedKey="{profile>/PaymentTypeValue}"
+                                        visible="{= ${profile>/EditField} === 'Payment/Type' }">
+                                        <items>
+                                            <SegmentedButtonItem key="CARD" text="{i18n>paymentCard}"/>
+                                            <SegmentedButtonItem key="SEPA" text="{i18n>paymentSepa}"/>
+                                            <SegmentedButtonItem key="PAYPAL" text="{i18n>paymentPaypal}"/>
+                                        </items>
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </SegmentedButton>
+                                    <HBox alignItems="Center">
+                                        <Button
+                                            icon="sap-icon://edit"
+                                            type="Transparent"
+                                            tooltip="{i18n>profileEditBtn}"
+                                            visible="{= ${profile>/EditField} !== 'Payment/Type' }"
+                                            press=".onEditField('Payment/Type')"/>
+                                        <Button
+                                            icon="sap-icon://save"
+                                            type="Transparent"
+                                            tooltip="{i18n>profileSaveBtn}"
+                                            visible="{= ${profile>/EditField} === 'Payment/Type' }"
+                                            press=".onSaveField('Payment/Type')"/>
+                                        <Button
+                                            icon="sap-icon://decline"
+                                            type="Transparent"
+                                            tooltip="{i18n>profileCancelBtn}"
+                                            visible="{= ${profile>/EditField} === 'Payment/Type' }"
+                                            press=".onCancelEdit('Payment/Type')"/>
+                                    </HBox>
+                                </HBox>
+
+                                <!-- SEPA-Lastschrift -->
+                                <Label
+                                    text="{i18n>profileAccountHolderLabel}"
+                                    labelFor="profileAccountHolderInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'SEPA' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'SEPA' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/AccountHolder', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/AccountHolder' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileAccountHolderInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerAccountHolderPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/AccountHolder' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/AccountHolder')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/AccountHolder' }"
+                                        press=".onEditField('Payment/AccountHolder')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/AccountHolder' }"
+                                        press=".onSaveField('Payment/AccountHolder')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/AccountHolder' }"
+                                        press=".onCancelEdit('Payment/AccountHolder')"/>
+                                </HBox>
+
+                                <Label
+                                    text="{i18n>profileIbanLabel}"
+                                    labelFor="profileIbanInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'SEPA' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'SEPA' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/Iban', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/Iban' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileIbanInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerIbanPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/Iban' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/Iban')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/Iban' }"
+                                        press=".onEditField('Payment/Iban')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/Iban' }"
+                                        press=".onSaveField('Payment/Iban')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/Iban' }"
+                                        press=".onCancelEdit('Payment/Iban')"/>
+                                </HBox>
+
+                                <!-- Kreditkarte. Die Prüfziffer fehlt bewusst - sie bestätigt
+                                     eine einzelne Zahlung und wird nie gespeichert -->
+                                <Label
+                                    text="{i18n>profileCardHolderLabel}"
+                                    labelFor="profileCardHolderInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/CardHolder', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardHolder' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileCardHolderInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerCardHolderPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardHolder' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/CardHolder')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardHolder' }"
+                                        press=".onEditField('Payment/CardHolder')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardHolder' }"
+                                        press=".onSaveField('Payment/CardHolder')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardHolder' }"
+                                        press=".onCancelEdit('Payment/CardHolder')"/>
+                                </HBox>
+
+                                <Label
+                                    text="{i18n>profileCardNumberLabel}"
+                                    labelFor="profileCardNumberInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/CardNumber', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardNumber' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileCardNumberInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerCardNumberPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardNumber' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/CardNumber')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardNumber' }"
+                                        press=".onEditField('Payment/CardNumber')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardNumber' }"
+                                        press=".onSaveField('Payment/CardNumber')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardNumber' }"
+                                        press=".onCancelEdit('Payment/CardNumber')"/>
+                                </HBox>
+
+                                <Label
+                                    text="{i18n>profileCardExpiryLabel}"
+                                    labelFor="profileCardExpiryInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'CARD' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/CardExpiry', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardExpiry' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profileCardExpiryInput"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerCardExpiryPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardExpiry' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/CardExpiry')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/CardExpiry' }"
+                                        press=".onEditField('Payment/CardExpiry')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardExpiry' }"
+                                        press=".onSaveField('Payment/CardExpiry')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/CardExpiry' }"
+                                        press=".onCancelEdit('Payment/CardExpiry')"/>
+                                </HBox>
+
+                                <!-- PayPal -->
+                                <Label
+                                    text="{i18n>profilePaypalEmailLabel}"
+                                    labelFor="profilePaypalEmailInput"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'PAYPAL' }"/>
+                                <HBox
+                                    width="100%"
+                                    alignItems="Center"
+                                    visible="{= ${user>/CurrentUser/Payment/Type} === 'PAYPAL' }">
+                                    <Text
+                                        text="{path: 'user>/CurrentUser/Payment/PaypalEmail', formatter: '.formatOptional'}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/PaypalEmail' }">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Text>
+                                    <Input
+                                        id="profilePaypalEmailInput"
+                                        type="Email"
+                                        value="{profile>/Value}"
+                                        placeholder="{i18n>registerPaypalEmailPlaceholder}"
+                                        visible="{= ${profile>/EditField} === 'Payment/PaypalEmail' }"
+                                        liveChange="onInputLiveChange"
+                                        submit=".onSaveField('Payment/PaypalEmail')">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileEditBtn}"
+                                        visible="{= ${profile>/EditField} !== 'Payment/PaypalEmail' }"
+                                        press=".onEditField('Payment/PaypalEmail')"/>
+                                    <Button
+                                        icon="sap-icon://save"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileSaveBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/PaypalEmail' }"
+                                        press=".onSaveField('Payment/PaypalEmail')"/>
+                                    <Button
+                                        icon="sap-icon://decline"
+                                        type="Transparent"
+                                        tooltip="{i18n>profileCancelBtn}"
+                                        visible="{= ${profile>/EditField} === 'Payment/PaypalEmail' }"
+                                        press=".onCancelEdit('Payment/PaypalEmail')"/>
+                                </HBox>
+                            </form:content>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+            </VBox>
+
+            <!-- Bewusst ohne die Shop-Fußzeile: Diese Seite ist eine fokussierte
+                 Aufgabe mit einer festen Aktionsleiste am unteren Rand -->
+        </content>
+
+        <!-- Nur Text, kein Icon: Die Fiori-Guideline zur Footer Toolbar sieht
+             für abschließende Aktionen reine Text-Buttons vor -->
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button
+                    text="{i18n>profileLogoutBtn}"
+                    press="onLogout"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

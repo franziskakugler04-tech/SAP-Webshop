@@ -1,0 +1,109 @@
+<mvc:View
+    controllerName="my.ui5.app.controller.OrderConfirmation"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+
+    <Page title="{i18n>orderConfirmationTitle}">
+        <content>
+
+            <VBox class="checkoutContent">
+
+                <!-- Bestätigung. Der Druck-Knopf steht bei dieser Karte statt in der
+                     Fußleiste, weil er nur diesen Abschnitt betrifft -->
+                <Panel class="checkoutCard">
+                    <content>
+                        <Title level="H2" text="{i18n>orderConfirmationHeadline}"/>
+
+                        <VBox class="orderConfirmationLines">
+                            <Text text="{path: 'order>/OrderNumber', formatter: '.formatOrderNumber'}"/>
+                            <Text text="{path: 'order>/Email', formatter: '.formatMailInfo'}"/>
+                            <Text text="{i18n>orderConfirmationMailBeforeShipping}"/>
+                        </VBox>
+
+                        <!-- noPrint: Der Druckknopf selbst gehört nicht auf den Ausdruck -->
+                        <HBox class="orderConfirmationPrintRow noPrint" alignItems="Center" wrap="Wrap">
+                            <Text text="{i18n>orderConfirmationPrintHint}"/>
+                            <Button
+                                text="{i18n>orderConfirmationPrintBtn}"
+                                press="onPrint"/>
+                        </HBox>
+                    </content>
+                </Panel>
+
+                <!-- Zusammenfassung der Bestellung; sie macht den Ausdruck erst
+                     zu einem Beleg -->
+                <Panel class="checkoutCard" headerText="{i18n>orderConfirmationDetailsPanel}">
+                    <content>
+
+                        <VBox class="orderConfirmationBlock">
+                            <Label text="{i18n>checkoutAddressPanel}"/>
+                            <Text text="{parts: [
+                                {path: 'order>/Address/Street'},
+                                {path: 'order>/Address/PostalCode'},
+                                {path: 'order>/Address/City'},
+                                {path: 'order>/Address/Country'}
+                            ], formatter: '.formatAddressLine'}"/>
+                        </VBox>
+
+                        <VBox class="orderConfirmationBlock">
+                            <Label text="{i18n>checkoutShippingPanel}"/>
+                            <Text text="{path: 'order>/ShippingNameKey', formatter: '.formatTextKey'}"/>
+                            <Text text="{path: 'order>/DeliveryDays', formatter: '.formatShippingDelivery'}"/>
+                        </VBox>
+
+                        <List items="{order>/Items}" class="orderConfirmationItems">
+                            <ObjectListItem
+                                title="{order>Name}"
+                                number="{parts: [
+                                    {path: 'order>Price'},
+                                    {path: 'order>Quantity'}
+                                ], formatter: '.formatter.formatLinePrice'}">
+                                <attributes>
+                                    <ObjectAttribute title="{i18n>cartQuantityLabel}" text="{order>Quantity}"/>
+                                </attributes>
+                            </ObjectListItem>
+                        </List>
+
+                        <VBox class="checkoutSummary">
+                            <HBox justifyContent="SpaceBetween">
+                                <Label text="{i18n>cartSubtotalLabel}"/>
+                                <Text text="{path: 'order>/Totals/Subtotal', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                            <HBox justifyContent="SpaceBetween" visible="{= ${order>/Totals/Discount} > 0 }">
+                                <Label text="{i18n>checkoutDiscountLabel}"/>
+                                <Text text="{path: 'order>/Totals/Discount', formatter: '.formatDiscount'}"/>
+                            </HBox>
+                            <HBox justifyContent="SpaceBetween">
+                                <Label text="{i18n>checkoutShippingCostLabel}"/>
+                                <Text text="{path: 'order>/Totals/Shipping', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                            <HBox class="checkoutTotalRow" justifyContent="SpaceBetween">
+                                <Title level="H3" text="{i18n>checkoutTotalLabel}"/>
+                                <Title
+                                    level="H3"
+                                    text="{path: 'order>/Totals/Total', formatter: '.formatter.formatPrice'}"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+
+            <!-- Fußzeile als letztes Element im Seiteninhalt, damit sie mit
+                 dem Inhalt scrollt statt ihn zu überdecken -->
+            <core:Fragment fragmentName="my.ui5.app.fragment.GlobalFooter" type="XML"/>
+        </content>
+
+        <!-- noPrint: Bedienelemente gehören nicht auf den Ausdruck -->
+        <footer>
+            <OverflowToolbar class="noPrint">
+                <ToolbarSpacer/>
+                <Button
+                    text="{i18n>orderConfirmationContinueBtn}"
+                    type="Emphasized"
+                    press="onContinue"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
